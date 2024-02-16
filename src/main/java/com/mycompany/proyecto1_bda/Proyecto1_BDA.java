@@ -21,7 +21,7 @@ public class Proyecto1_BDA {
         
         try {
             IConexion baseDatos = new ConexionBD(cadenaConexion, user, password);
-            Cliente cliente = new Cliente("adriana","gutierrez","robles","1234",new Date(2003,04,04),"calle","178","f");
+            Cliente cliente = new Cliente("adriana","gutierrez","robles", new Date(2003,04,04), "1234","calle","178","f");
             ICliente daoCliente = new ClienteDAO(baseDatos);
             Cliente agregado = daoCliente.registrarCliente(cliente);
             

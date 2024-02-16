@@ -46,6 +46,19 @@ public class Cliente {
         this.colonia = colonia;
     }
 
+    public Cliente(String nombre, String apellido_paterno, String apellido_materno, Date fecha_nacimiento,String contrasenia, String calle, String num, String colonia) {
+        this.nombre = nombre;
+        this.apellido_paterno = apellido_paterno;
+        this.apellido_materno = apellido_materno;
+        this.fecha_nacimiento = fecha_nacimiento;
+        this.contrasenia = contrasenia;
+        this.calle = calle;
+        this.num = num;
+        this.colonia = colonia;
+    }
+
+    
+    
     public int getId() {
         return id;
     }
