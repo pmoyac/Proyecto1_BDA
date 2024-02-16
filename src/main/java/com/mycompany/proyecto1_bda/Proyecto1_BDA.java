@@ -2,13 +2,11 @@ package com.mycompany.proyecto1_bda;
 
 import datos.ClienteDAO;
 import datos.ConexionBD;
-<<<<<<< HEAD
 import excepciones.PersistenciaException;
 import interfaces.ICliente;
 import interfaces.IConexion;
 import java.sql.Date;
 import objetos.Cliente;
-=======
 import datos.CuentaDAO;
 import excepciones.PersistenciaException;
 import interfaces.ICliente;
@@ -19,14 +17,12 @@ import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import objetos.Cuenta;
->>>>>>> 78ce1b42e520786a5b18d92fa14852f6176f5c88
 
 /**
  * @author Pedro Moya, Adriana Gutiérrez
  */
 public class Proyecto1_BDA {
 
-<<<<<<< HEAD
     public static void main(String[] args) {
 
         String cadenaConexion = "jdbc:mysql://localhost:3306/banco";
@@ -46,27 +42,22 @@ public class Proyecto1_BDA {
             System.out.println("Hubo un error");
             System.out.println(e.getStackTrace());
         }
-        
-        
-        
-        
-=======
-    public static void main(String[] args) throws PersistenciaException {
-        System.out.println("Hello !");
-        System.out.println("este es jovani");
-        
-        
-        String cadenaConexion = "jdbc:mysql://localhost:3306/banco";
-        String user = "root";
-        String password = "moya";
-        
-        IConexion baseDatos= new ConexionBD(cadenaConexion, user, password);
-        
-//        ICuenta cu = new CuentaDAO(baseDatos);
-//        Cuenta c1= new Cuenta(3000, new Date(120, 6, 12));
-//        cu.agregarCuenta(c1);
->>>>>>> 78ce1b42e520786a5b18d92fa14852f6176f5c88
-    }
-    
+    }   
+      
+//    public static void main(String[] args) throws PersistenciaException {
+//        System.out.println("Hello !");
+//        System.out.println("este es jovani");
+//        
+//        
+//        String cadenaConexion = "jdbc:mysql://localhost:3306/banco";
+//        String user = "root";
+//        String password = "moya";
+//        
+//        IConexion baseDatos= new ConexionBD(cadenaConexion, user, password);
+//        
+////        ICuenta cu = new CuentaDAO(baseDatos);
+////        Cuenta c1= new Cuenta(3000, new Date(120, 6, 12));
+////        cu.agregarCuenta(c1);
+//    }
     
 }
