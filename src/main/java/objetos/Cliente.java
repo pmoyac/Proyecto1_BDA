@@ -8,8 +8,9 @@ import java.sql.Date;
 public class Cliente {
     
     int id;
-    String nombre, apellido_paterno, apellido_materno;
     String contrasenia;
+    String nombre, apellido_paterno, apellido_materno;
+    
     int edad;
     Date fecha_nacimiento;
     String calle, num, colonia;
@@ -17,9 +18,18 @@ public class Cliente {
     public Cliente() {
     }
 
-    public Cliente(int id) {
-        this.id = id;
+    public Cliente(String contrasenia, String nombre, String apellido_paterno, String apellido_materno, Date fecha_nacimiento, String calle, String num, String colonia) {
+        this.contrasenia = contrasenia;
+        this.nombre = nombre;
+        this.apellido_paterno = apellido_paterno;
+        this.apellido_materno = apellido_materno;
+        this.fecha_nacimiento = fecha_nacimiento;
+        this.calle = calle;
+        this.num = num;
+        this.colonia = colonia;
     }
+
+    
 
     public Cliente(int id, String nombre, String apellido_paterno, String apellido_materno, String contrasenia, int edad, Date fecha_nacimiento, String calle, String num, String colonia) {
         this.id = id;

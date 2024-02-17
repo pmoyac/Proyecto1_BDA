@@ -29,8 +29,8 @@ public class ClienteDAO implements ICliente{
     @Override
      public Cliente registrarCliente(Cliente c) throws PersistenciaException {
         
-        String createClient = "INSERT INTO clientes"
-                + "(nombre, apellido_paterno, apellido_materno, contrasenia,fecha_nacimiento, calle, num, colonia)"
+        String createClient = "INSERT INTO clientes "
+                + "(contrasenia, nombre, apellido_paterno, apellido_materno, fecha_nacimiento, calle, num, colonia) "
                 + "VALUES (?,?,?,?,?,?,?,?)";
         
         Cliente resultado=null;
@@ -39,14 +39,16 @@ public class ClienteDAO implements ICliente{
             Connection cn = conexion.crearConexion();
             PreparedStatement insert = cn.prepareStatement(createClient, Statement.RETURN_GENERATED_KEYS);
            
-            insert.setString(1, c.getNombre());
-            insert.setString(2, c.getApellido_paterno());
-            insert.setString(3, c.getApellido_materno());
-            insert.setDate(4, c.getFecha_nacimiento());
-            insert.setString(5, c.getContrasenia());
+            insert.setString(1, c.getContrasenia());
+            insert.setString(2, c.getNombre());
+            insert.setString(3, c.getApellido_paterno());
+            insert.setString(4, c.getApellido_materno());
+            insert.setDate(5, c.getFecha_nacimiento());
+            
             insert.setString(6, c.getCalle());
             insert.setString(7, c.getNum());
             insert.setString(8, c.getColonia());
+            insert.executeUpdate();
             
             resultado = buscarCliente(c.getId());
             return resultado;
@@ -54,7 +56,8 @@ public class ClienteDAO implements ICliente{
         } catch (SQLException e) {
             LOG.log(Level.SEVERE, e.getMessage());
             throw new PersistenciaException("No fue posible agregar el cliente" + e.getMessage());
-        }       
+        }  
+        
     }
 
     @Override
@@ -66,9 +69,9 @@ public class ClienteDAO implements ICliente{
     public Cliente buscarCliente(int id) throws PersistenciaException {
 
         String searchClient = "SELECT * FROM clientes"
-                + " WHERE idCliente=" + id;
+                + " WHERE id=" + id;
         
-        System.out.println(searchClient);
+       
 
         Cliente resultado = null;
 
@@ -79,16 +82,17 @@ public class ClienteDAO implements ICliente{
             ResultSet res = search.executeQuery();
             
             if(res.next()){
+                String contrasenia = res.getString("contrasenia");
                 String nombre = res.getString("nombres");
                 String apellido_paterno = res.getString("apellidoPaterno");
                 String apellido_materno = res.getString("apellidoMaterno");
                 Date fecha_nacimiento = res.getDate("fecha_nacimiento");
-                String contrasenia = res.getString("contrasenia");
+              
                 String calle = res.getString("calle");
                 String num = res.getString("num");
                 String colonia = res.getString("colonia");
                 
-                resultado = new Cliente(nombre, apellido_paterno, apellido_materno, fecha_nacimiento, contrasenia, calle, num, colonia);
+                resultado = new Cliente(contrasenia,nombre, apellido_paterno, apellido_materno, fecha_nacimiento,  calle, num, colonia);
                 return resultado;
             }
             
