@@ -23,41 +23,41 @@ import objetos.Cuenta;
  */
 public class Proyecto1_BDA {
 
-    public static void main(String[] args) {
-
-        String cadenaConexion = "jdbc:mysql://localhost:3306/banco";
-        String user = "root";
-        String password = "1234";
-        
-        try {
-            IConexion baseDatos = new ConexionBD(cadenaConexion, user, password);
-            Cliente cliente = new Cliente("adriana","gutierrez","robles", new Date(2003,04,04), "1234","calle","178","f");
-            ICliente daoCliente = new ClienteDAO(baseDatos);
-            Cliente agregado = daoCliente.registrarCliente(cliente);
-            
-            System.out.println("Cliente registrado");
-            System.out.println(agregado.toString());
-            
-        } catch (PersistenciaException e) {
-            System.out.println("Hubo un error");
-            System.out.println(e.getStackTrace());
-        }
-    }   
-      
-//    public static void main(String[] args) throws PersistenciaException {
-//        System.out.println("Hello !");
-//        System.out.println("este es jovani");
-//        
-//        
+//    public static void main(String[] args) {
+//
 //        String cadenaConexion = "jdbc:mysql://localhost:3306/banco";
 //        String user = "root";
-//        String password = "moya";
+//        String password = "1234";
 //        
-//        IConexion baseDatos= new ConexionBD(cadenaConexion, user, password);
-//        
-////        ICuenta cu = new CuentaDAO(baseDatos);
-////        Cuenta c1= new Cuenta(3000, new Date(120, 6, 12));
-////        cu.agregarCuenta(c1);
-//    }
+//        try {
+//            IConexion baseDatos = new ConexionBD(cadenaConexion, user, password);
+//            Cliente cliente = new Cliente("adriana","gutierrez","robles", new Date(2003,04,04), "1234","calle","178","f");
+//            ICliente daoCliente = new ClienteDAO(baseDatos);
+//            Cliente agregado = daoCliente.registrarCliente(cliente);
+//            
+//            System.out.println("Cliente registrado");
+//            System.out.println(agregado.toString());
+//            
+//        } catch (PersistenciaException e) {
+//            System.out.println("Hubo un error");
+//            System.out.println(e.getStackTrace());
+//        }
+//    }   
+      
+    public static void main(String[] args) throws PersistenciaException {
+        System.out.println("Hello !");
+        System.out.println("este es jovani");
+        
+        
+        String cadenaConexion = "jdbc:mysql://localhost:3306/banco";
+        String user = "root";
+        String password = "moya";
+        
+        IConexion baseDatos= new ConexionBD(cadenaConexion, user, password);
+        
+//        ICuenta cu = new CuentaDAO(baseDatos);
+//        Cuenta c1= new Cuenta(3000, new Date(120, 6, 12));
+//        cu.agregarCuenta(c1);
+    }
     
 }

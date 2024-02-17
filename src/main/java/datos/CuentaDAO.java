@@ -53,7 +53,11 @@ public class CuentaDAO implements ICuenta{
     }
 
     @Override
-    public Cuenta transferir(Cuenta c1, Cuenta c2) throws PersistenciaException {
+    public Cuenta transferir(int nc1, int nc2, float monto) throws PersistenciaException {
+        
+        String transfrencia = "";
+        
+        
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 

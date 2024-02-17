@@ -10,6 +10,7 @@ public class Cuenta {
     int numero_cuenta;
     float saldo;
     Date fecha_apertura;
+    int id_cliente;
 
     public Cuenta() {
     }
@@ -18,6 +19,14 @@ public class Cuenta {
         this.saldo = saldo;
         this.fecha_apertura = fecha_apertura;
     }
+
+    public Cuenta(float saldo, Date fecha_apertura, int id_cliente) {
+        this.saldo = saldo;
+        this.fecha_apertura = fecha_apertura;
+        this.id_cliente = id_cliente;
+    }
+    
+    
 
     public int getNumero_cuenta() {
         return numero_cuenta;
@@ -42,6 +51,16 @@ public class Cuenta {
     public void setFecha_apertura(Date fecha_apertura) {
         this.fecha_apertura = fecha_apertura;
     }
+
+    public int getId_cliente() {
+        return id_cliente;
+    }
+
+    public void setId_cliente(int id_cliente) {
+        this.id_cliente = id_cliente;
+    }
+    
+    
 
     @Override
     public int hashCode() {
