@@ -369,7 +369,6 @@ public class DlgRegistrarCliente extends javax.swing.JDialog {
         clienteDTO.setUsuario(txtUsuario.getText());
         clienteDTO.setContrasena(txtContrasenia.getText());
            
-        
         if(clienteDTO.esValido()){
 //            if(validarCampos()){
 //                
@@ -377,6 +376,11 @@ public class DlgRegistrarCliente extends javax.swing.JDialog {
             ClienteDAO clienteDAO = new ClienteDAO(baseDatos);
             try {
                 clienteDAO.registrarCliente(clienteDTO);
+                JOptionPane.showMessageDialog(this, "Usuario registrado exitosamente", 
+                        "Usuario registrado", JOptionPane.INFORMATION_MESSAGE);
+                frmInicio inicio = new frmInicio();
+                inicio.setVisible(true);
+                dispose();
             } catch (PersistenciaException ex) {
                 Logger.getLogger(DlgRegistrarCliente.class.getName()).log(Level.SEVERE, null, ex);
             }
