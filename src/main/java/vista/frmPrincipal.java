@@ -154,6 +154,11 @@ public class frmPrincipal extends javax.swing.JFrame {
     private void btnIniciarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIniciarSesionActionPerformed
         if (cliente == null) {
            // cliente = control.iniciarSesion(this);
+           //Mientra queda el login
+           DlgInicioSesion is = new DlgInicioSesion();
+           is.setVisible(true);
+           
+           this.setVisible(false);
         } else {
             JOptionPane.showMessageDialog(rootPane, "Ya se ha iniciado sesión",
                     "Warning", JOptionPane.WARNING_MESSAGE);

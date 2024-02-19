@@ -50,21 +50,25 @@ public class DlgRegistrarCliente extends javax.swing.JDialog {
         if (!validartxt(this.txtApellidoM, "Debe completar el campo apellido materno")) {
         return false;
         }
-        if (!validartxt(this.txtCalle, "Debe completar el campo nombre")) {
+        if (!validartxt(this.txtCalle, "Debe completar el campo calle")) {
         return false;
         }
-        if (!validartxt(this.txtColonia, "Debe completar el campo nombre")) {
+        if (!validartxt(this.txtColonia, "Debe completar el campo colonia")) {
         return false;
         }
-        if (!validartxt(this.txtNum, "Debe completar el campo nombre")) {
+        if (!validartxt(this.txtNum, "Debe completar el campo num")) {
         return false;
         }
+        
         return true;
     }
     
     public void reistrarCliente() throws PersistenciaException{
 //        Date javadate = new Date();
-        java.util.Date javaDate = new java.util.Date();
+
+
+        if (validarCliente()) {
+            java.util.Date javaDate = new java.util.Date();
         javaDate= this.jDateFecha.getDate();
         
         
@@ -76,6 +80,8 @@ public class DlgRegistrarCliente extends javax.swing.JDialog {
         
         
         cliente.registrarCliente(clienteNuevo);
+        }
+        
     }
     
     

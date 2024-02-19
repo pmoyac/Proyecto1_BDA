@@ -1,17 +1,98 @@
 package vista;
 
+import datos.ClienteDAO;
+import excepciones.PersistenciaException;
+import java.sql.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import javax.swing.JTextField;
+import objetos.Cliente;
+
 /**
  *
  * @author Pedro Moya, Adriana Gutiérrez
  */
 public class DlgModificarDatos extends javax.swing.JDialog {
 
+    ClienteDAO cliente;
+    int idc;
     /**
      * Creates new form DlgModificarDatos
      */
     public DlgModificarDatos(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+    }
+
+    public DlgModificarDatos(int id) throws PersistenciaException {
+        initComponents();
+        idc = id;
+        cliente = new ClienteDAO();
+        Cliente cl = cliente.buscarCliente(idc);       
+        
+        
+        this.txtNombre.setText(cl.getNombre());
+        this.txtApellidoP.setText(cl.getApellido_paterno());
+        this.txtApellidoM.setText(cl.getApellido_materno());
+        this.txtCalle.setText(cl.getCalle());
+        this.txtNum.setText(cl.getNum());
+        this.txtColonia.setText(cl.getColonia());
+        this.jDateChooser1.setDate(cl.getFecha_nacimiento());
+    }
+    
+    private boolean validartxt(JTextField jTextField, String errorMessage) {
+        if (jTextField.getText().length() == 0) {
+            JOptionPane.showMessageDialog(null, errorMessage);
+            return false;
+        }
+        return true;
+    }
+
+    private boolean validarCliente() {
+        if (!validartxt(this.txtNombre, "Debe completar el campo nombre")) {
+        return false;
+        }
+        if (!validartxt(this.txtApellidoP, "Debe completar el campo apellido paterno")) {
+        return false;
+        }
+        if (!validartxt(this.txtApellidoM, "Debe completar el campo apellido materno")) {
+        return false;
+        }
+        if (!validartxt(this.txtCalle, "Debe completar el campo calle")) {
+        return false;
+        }
+        if (!validartxt(this.txtColonia, "Debe completar el campo colonia")) {
+        return false;
+        }
+        if (!validartxt(this.txtNum, "Debe completar el campo num")) {
+        return false;
+        }
+        
+        return true;
+    }
+    
+    
+    
+    public void actualizarCliente() throws PersistenciaException{
+        if (validarCliente()) {
+            java.util.Date javaDate = new java.util.Date();
+        javaDate= this.jDateChooser1.getDate();
+        
+        
+        Date fechasql = new Date(javaDate.getTime());
+        
+        Cliente clienteNuevo = new Cliente(this.idc, this.txtNombre.getText(), this.txtApellidoP.getText(), 
+                this.txtApellidoM.getText(), fechasql, this.txtCalle.getText(), 
+                this.txtNum.getText(), this.txtColonia.getText());
+        
+        
+        cliente.actualizarCliente(clienteNuevo);
+        }
+        
+       
+        
+        
     }
 
     /**
@@ -39,10 +120,10 @@ public class DlgModificarDatos extends javax.swing.JDialog {
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
-        txtFechaNac = new javax.swing.JTextField();
         btnAceptar = new javax.swing.JButton();
         btnRestaurar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
+        jDateChooser1 = new com.toedter.calendar.JDateChooser();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Modificar datos");
@@ -97,11 +178,14 @@ public class DlgModificarDatos extends javax.swing.JDialog {
         jLabel8.setFont(new java.awt.Font("Berlin Sans FB", 0, 20)); // NOI18N
         jLabel8.setText("Colonia:");
 
-        txtFechaNac.setFont(new java.awt.Font("Berlin Sans FB", 0, 20)); // NOI18N
-
         btnAceptar.setFont(new java.awt.Font("Berlin Sans FB", 0, 24)); // NOI18N
         btnAceptar.setText("Aceptar");
         btnAceptar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnAceptar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAceptarActionPerformed(evt);
+            }
+        });
 
         btnRestaurar.setFont(new java.awt.Font("Berlin Sans FB", 0, 24)); // NOI18N
         btnRestaurar.setText("Restaurar");
@@ -125,7 +209,9 @@ public class DlgModificarDatos extends javax.swing.JDialog {
                 .addGap(88, 88, 88)
                 .addComponent(btnAceptar, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(68, 68, 68)
-                .addComponent(btnRestaurar)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jDateChooser1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnRestaurar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(68, 68, 68)
                 .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(95, Short.MAX_VALUE))
@@ -134,10 +220,7 @@ public class DlgModificarDatos extends javax.swing.JDialog {
                     .addGap(92, 92, 92)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(jLabel9)
-                        .addGroup(jPanel1Layout.createSequentialGroup()
-                            .addComponent(jLabel5)
-                            .addGap(18, 18, 18)
-                            .addComponent(txtFechaNac, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jLabel5)
                         .addGroup(jPanel1Layout.createSequentialGroup()
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(jLabel7)
@@ -164,7 +247,9 @@ public class DlgModificarDatos extends javax.swing.JDialog {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(14, 14, 14)
                 .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 334, Short.MAX_VALUE)
+                .addGap(143, 143, 143)
+                .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 171, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnAceptar)
                     .addComponent(btnRestaurar)
@@ -185,9 +270,7 @@ public class DlgModificarDatos extends javax.swing.JDialog {
                         .addComponent(txtApellidoM, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel4))
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(txtFechaNac, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel5))
+                    .addComponent(jLabel5)
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                     .addComponent(jLabel9)
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -228,11 +311,21 @@ public class DlgModificarDatos extends javax.swing.JDialog {
         // TODO add your handling code here:
     }//GEN-LAST:event_btnRestaurarActionPerformed
 
+    private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
+        try {
+            // TODO add your handling code here:
+            this.actualizarCliente();
+        } catch (PersistenciaException ex) {
+            Logger.getLogger(DlgModificarDatos.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btnAceptarActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAceptar;
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnRestaurar;
+    private com.toedter.calendar.JDateChooser jDateChooser1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -247,7 +340,6 @@ public class DlgModificarDatos extends javax.swing.JDialog {
     private javax.swing.JTextField txtApellidoP;
     private javax.swing.JTextField txtCalle;
     private javax.swing.JTextField txtColonia;
-    private javax.swing.JTextField txtFechaNac;
     private javax.swing.JTextField txtNombre;
     private javax.swing.JTextField txtNum;
     // End of variables declaration//GEN-END:variables

@@ -55,13 +55,15 @@ public class Proyecto1_BDA {
 
 //        IConexion baseDatos = new ConexionBD(cadenaConexion, user, password);
 
-//        ICliente cl = new ClienteDAO();
-//        ICuenta cu = new CuentaDAO();
+        ICliente cl = new ClienteDAO();
+        ICuenta cu = new CuentaDAO();
 //        Cuenta c1 = new Cuenta(3000, new Date(120, 6, 12));
 //        cu.agregarCuenta(c1);
 //        Cliente cliente = new Cliente("contrasena", "Antonio", "Castro", "Moya", new Date(120, 6, 12), "sgdfg", "asdfas", "sdfasdf");
 //            cl.registrarCliente(cliente);
 //        cu.transferir(1, 2, 100);
+
+        System.out.println(cu.buscarCuentas(7));
     }
 
 }
