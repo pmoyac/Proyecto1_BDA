@@ -3,6 +3,7 @@ package datos;
 import excepciones.PersistenciaException;
 import interfaces.IConexion;
 import interfaces.ICuenta;
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -54,13 +55,28 @@ public class CuentaDAO implements ICuenta{
 
     @Override
     public Cuenta transferir(int nc1, int nc2, float monto) throws PersistenciaException {
-        
-        String transfrencia = "";
-        
-        
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
+        String procedureCall = "{call transferir(?, ?, ?)}";
+        Connection con ;
 
+        try  {
+            con = conexion.crearConexion();
+            CallableStatement callableStatement = con.prepareCall(procedureCall);
+            callableStatement.setInt(1, nc1);
+            callableStatement.setInt(2, nc2);
+            callableStatement.setDouble(3, monto);
+
+            callableStatement.executeUpdate();
+            System.out.println("Funds transferred successfully.");
+        } catch (SQLException e) {
+            System.err.println("Error while executing the stored procedure: " + e.getMessage());
+            e.printStackTrace();
+           
+        }
+        return null;
+    }
+        
+    
+    
     @Override
     public Cuenta generarRetiro(Cuenta c) throws PersistenciaException {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
