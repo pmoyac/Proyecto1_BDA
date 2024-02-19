@@ -17,8 +17,8 @@ public class CuentaDAO implements ICuenta{
     private final IConexion conexion;
 
 
-    public CuentaDAO(IConexion conexion) {
-        this.conexion = conexion;
+    public CuentaDAO() {
+        this.conexion = new ConexionBD();
     }
 
     @Override
@@ -66,9 +66,9 @@ public class CuentaDAO implements ICuenta{
             callableStatement.setDouble(3, monto);
 
             callableStatement.executeUpdate();
-            System.out.println("Funds transferred successfully.");
+            System.out.println("Transferencia Completada");
         } catch (SQLException e) {
-            System.err.println("Error while executing the stored procedure: " + e.getMessage());
+            System.err.println("Error: " + e.getMessage());
             e.printStackTrace();
            
         }

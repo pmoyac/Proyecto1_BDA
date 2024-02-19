@@ -46,19 +46,21 @@ public class Proyecto1_BDA {
     public static void main(String[] args) throws PersistenciaException {
         System.out.println("Hello !");
         System.out.println("este es jovani");
+        
+        
 
-        String cadenaConexion = "jdbc:mysql://localhost:3306/banco";
-        String user = "root";
-        String password = "moya";
+//        String cadenaConexion = "jdbc:mysql://localhost:3306/banco";
+//        String user = "root";
+//        String password = "moya";
 
-        IConexion baseDatos = new ConexionBD(cadenaConexion, user, password);
+//        IConexion baseDatos = new ConexionBD(cadenaConexion, user, password);
 
-        ICliente cl = new ClienteDAO(baseDatos);
-        ICuenta cu = new CuentaDAO(baseDatos);
-        Cuenta c1 = new Cuenta(3000, new Date(120, 6, 12));
+//        ICliente cl = new ClienteDAO();
+//        ICuenta cu = new CuentaDAO();
+//        Cuenta c1 = new Cuenta(3000, new Date(120, 6, 12));
 //        cu.agregarCuenta(c1);
-        Cliente cliente = new Cliente("contrasena", "pedro", "moya", "catrso", new Date(120, 6, 12), "sgdfg", "asdfas", "sdfasdf");
-            cl.registrarCliente(cliente);
+//        Cliente cliente = new Cliente("contrasena", "Antonio", "Castro", "Moya", new Date(120, 6, 12), "sgdfg", "asdfas", "sdfasdf");
+//            cl.registrarCliente(cliente);
 //        cu.transferir(1, 2, 100);
     }
 

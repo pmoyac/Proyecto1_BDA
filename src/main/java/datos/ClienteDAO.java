@@ -5,6 +5,7 @@ import interfaces.ICliente;
 import interfaces.IConexion;
 import java.sql.Connection;
 import java.sql.Date;
+//import java.util.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -21,9 +22,12 @@ public class ClienteDAO implements ICliente{
     private final IConexion conexion;
     private static final Logger LOG = Logger.getLogger(ClienteDAO.class.getName());
 
-    public ClienteDAO(IConexion conexion) {
-        this.conexion = conexion;
+    public ClienteDAO() {
+        this.conexion = new ConexionBD();
     }
+
+    
+    
     
     
     @Override
