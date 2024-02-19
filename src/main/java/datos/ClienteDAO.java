@@ -30,7 +30,7 @@ public class ClienteDAO implements ICliente{
      public Cliente registrarCliente(Cliente c) throws PersistenciaException {
         
         String createClient = "INSERT INTO clientes"
-                + "(nombre, apellido_paterno, apellido_materno, contrasenia,fecha_nacimiento, calle, num, colonia)"
+                + "(nombre, apellido_paterno, apellido_materno,fecha_nacimiento, contrasenia, calle, num, colonia)"
                 + "VALUES (?,?,?,?,?,?,?,?)";
         
         Cliente resultado=null;
@@ -66,12 +66,12 @@ public class ClienteDAO implements ICliente{
     public Cliente buscarCliente(int id) throws PersistenciaException {
 
         String searchClient = "SELECT * FROM clientes"
-                + " WHERE idCliente=" + id;
+                + " WHERE id=" + id;
         
         System.out.println(searchClient);
 
         Cliente resultado = null;
-
+        
         try {
             Connection c = conexion.crearConexion();
             PreparedStatement search = c.prepareStatement(searchClient);
@@ -79,9 +79,9 @@ public class ClienteDAO implements ICliente{
             ResultSet res = search.executeQuery();
             
             if(res.next()){
-                String nombre = res.getString("nombres");
-                String apellido_paterno = res.getString("apellidoPaterno");
-                String apellido_materno = res.getString("apellidoMaterno");
+                String nombre = res.getString("nombre");
+                String apellido_paterno = res.getString("apellido_paterno");
+                String apellido_materno = res.getString("apellido_materno");
                 Date fecha_nacimiento = res.getDate("fecha_nacimiento");
                 String contrasenia = res.getString("contrasenia");
                 String calle = res.getString("calle");
