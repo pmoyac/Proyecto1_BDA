@@ -1,18 +1,38 @@
 package vista;
 
+import DTOs.ClienteDTO;
+import datos.ClienteDAO;
+import excepciones.PersistenciaException;
+import interfaces.IConexion;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import objetos.Cliente;
+
 /**
  *
  * @author Pedro Moya, Adriana Gutiérrez
  */
 public class DlgRegistrarCliente extends javax.swing.JDialog {
 
+    private Cliente cliente;
+    private IConexion baseDatos;
+    
     /**
      * Creates new form DlgRegistrarCliente
      */
     public DlgRegistrarCliente(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
-        initComponents();
+        initComponents();           
     }
+
+    public DlgRegistrarCliente(IConexion baseDatos) {
+        initComponents();   
+        this.baseDatos=baseDatos;
+        setLocationRelativeTo(this);
+    }
+    
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -41,9 +61,11 @@ public class DlgRegistrarCliente extends javax.swing.JDialog {
         txtColonia = new javax.swing.JTextField();
         panelRound1 = new vista.PanelRound();
         jLabel10 = new javax.swing.JLabel();
-        txtContrasenia = new javax.swing.JTextField();
+        txtUsuario = new javax.swing.JTextField();
         txtConfirmarContrasenia = new javax.swing.JTextField();
         jLabel11 = new javax.swing.JLabel();
+        jLabel12 = new javax.swing.JLabel();
+        txtContrasenia = new javax.swing.JTextField();
         btnAceptar = new javax.swing.JButton();
         btnRestaurar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
@@ -106,12 +128,12 @@ public class DlgRegistrarCliente extends javax.swing.JDialog {
 
         jLabel10.setFont(new java.awt.Font("Berlin Sans FB", 0, 20)); // NOI18N
         jLabel10.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel10.setText("Contraseña:");
+        jLabel10.setText("Usuario:");
 
-        txtContrasenia.setFont(new java.awt.Font("Berlin Sans FB", 0, 20)); // NOI18N
-        txtContrasenia.addActionListener(new java.awt.event.ActionListener() {
+        txtUsuario.setFont(new java.awt.Font("Berlin Sans FB", 0, 20)); // NOI18N
+        txtUsuario.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtContraseniaActionPerformed(evt);
+                txtUsuarioActionPerformed(evt);
             }
         });
 
@@ -126,6 +148,17 @@ public class DlgRegistrarCliente extends javax.swing.JDialog {
         jLabel11.setForeground(new java.awt.Color(255, 255, 255));
         jLabel11.setText("Confirmar contraseña:");
 
+        jLabel12.setFont(new java.awt.Font("Berlin Sans FB", 0, 20)); // NOI18N
+        jLabel12.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel12.setText("Contraseña:");
+
+        txtContrasenia.setFont(new java.awt.Font("Berlin Sans FB", 0, 20)); // NOI18N
+        txtContrasenia.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtContraseniaActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout panelRound1Layout = new javax.swing.GroupLayout(panelRound1);
         panelRound1.setLayout(panelRound1Layout);
         panelRound1Layout.setHorizontalGroup(
@@ -134,34 +167,47 @@ public class DlgRegistrarCliente extends javax.swing.JDialog {
                 .addGroup(panelRound1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelRound1Layout.createSequentialGroup()
                         .addGap(21, 21, 21)
-                        .addComponent(jLabel10)
+                        .addGroup(panelRound1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel12)
+                            .addComponent(jLabel10))
                         .addGap(102, 102, 102))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelRound1Layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jLabel11)
                         .addGap(18, 18, 18)))
-                .addGroup(panelRound1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(txtConfirmarContrasenia, javax.swing.GroupLayout.DEFAULT_SIZE, 261, Short.MAX_VALUE)
-                    .addComponent(txtContrasenia))
+                .addGroup(panelRound1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelRound1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(txtUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 261, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtContrasenia, javax.swing.GroupLayout.PREFERRED_SIZE, 261, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtConfirmarContrasenia, javax.swing.GroupLayout.PREFERRED_SIZE, 261, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(32, Short.MAX_VALUE))
         );
         panelRound1Layout.setVerticalGroup(
             panelRound1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelRound1Layout.createSequentialGroup()
-                .addGap(17, 17, 17)
+                .addGap(14, 14, 14)
                 .addGroup(panelRound1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel10)
-                    .addComponent(txtContrasenia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(panelRound1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtConfirmarContrasenia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel11))
-                .addContainerGap(17, Short.MAX_VALUE))
+                    .addComponent(jLabel12)
+                    .addComponent(txtContrasenia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(12, 12, 12)
+                .addGroup(panelRound1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel11)
+                    .addComponent(txtConfirmarContrasenia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(18, Short.MAX_VALUE))
         );
 
         btnAceptar.setFont(new java.awt.Font("Berlin Sans FB", 0, 24)); // NOI18N
         btnAceptar.setText("Aceptar");
         btnAceptar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnAceptar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAceptarActionPerformed(evt);
+            }
+        });
 
         btnRestaurar.setFont(new java.awt.Font("Berlin Sans FB", 0, 24)); // NOI18N
         btnRestaurar.setText("Restaurar");
@@ -175,6 +221,11 @@ public class DlgRegistrarCliente extends javax.swing.JDialog {
         btnCancelar.setFont(new java.awt.Font("Berlin Sans FB", 0, 24)); // NOI18N
         btnCancelar.setText("Cancelar");
         btnCancelar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -217,7 +268,7 @@ public class DlgRegistrarCliente extends javax.swing.JDialog {
                     .addComponent(jLabel3)
                     .addComponent(jLabel4)
                     .addComponent(panelRound1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(19, Short.MAX_VALUE))
+                .addContainerGap(18, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -257,7 +308,7 @@ public class DlgRegistrarCliente extends javax.swing.JDialog {
                     .addComponent(txtColonia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(panelRound1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(21, Short.MAX_VALUE))
+                .addContainerGap(17, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -275,21 +326,72 @@ public class DlgRegistrarCliente extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnRestaurarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRestaurarActionPerformed
-        // TODO add your handling code here:
+        txtNombre.setText("");
+        txtApellidoP.setText("");
+        txtApellidoM.setText("");
+        txtFechaNac.setText("");
+        txtCalle.setText("");
+        txtNum.setText("");
+        txtColonia.setText("");
+        txtUsuario.setText("");
+        txtConfirmarContrasenia.setText("");
+        
     }//GEN-LAST:event_btnRestaurarActionPerformed
 
     private void txtCalleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCalleActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtCalleActionPerformed
 
-    private void txtContraseniaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtContraseniaActionPerformed
+    private void txtUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtUsuarioActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtContraseniaActionPerformed
+    }//GEN-LAST:event_txtUsuarioActionPerformed
 
     private void txtConfirmarContraseniaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtConfirmarContraseniaActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtConfirmarContraseniaActionPerformed
 
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+        dispose();
+        frmPrincipal p = new frmPrincipal();
+        p.setVisible(true);
+    }//GEN-LAST:event_btnCancelarActionPerformed
+
+    private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
+        ClienteDTO clienteDTO = new ClienteDTO();
+        
+        clienteDTO.setNombre(txtNombre.getText());
+        clienteDTO.setApellidoPaterno(txtApellidoP.getText());
+        clienteDTO.setApellidoMaterno(txtApellidoM.getText());
+        clienteDTO.setFechaNacimiento(txtFechaNac.getText());
+        clienteDTO.setCalle(txtCalle.getText());
+        clienteDTO.setNumeroExterior(txtNum.getText());
+        clienteDTO.setColonia(txtColonia.getText());
+        clienteDTO.setUsuario(txtUsuario.getText());
+        clienteDTO.setContrasena(txtContrasenia.getText());
+           
+        
+        if(clienteDTO.esValido()){
+//            if(validarCampos()){
+//                
+//            }
+            ClienteDAO clienteDAO = new ClienteDAO(baseDatos);
+            try {
+                clienteDAO.registrarCliente(clienteDTO);
+            } catch (PersistenciaException ex) {
+                Logger.getLogger(DlgRegistrarCliente.class.getName()).log(Level.SEVERE, null, ex);
+            }
+                    
+        }
+        
+    }//GEN-LAST:event_btnAceptarActionPerformed
+
+    private void txtContraseniaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtContraseniaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtContraseniaActionPerformed
+
+        
+    
+    
     /**
      * @param args the command line arguments
      */
@@ -301,6 +403,7 @@ public class DlgRegistrarCliente extends javax.swing.JDialog {
     private javax.swing.JButton btnRestaurar;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -320,5 +423,6 @@ public class DlgRegistrarCliente extends javax.swing.JDialog {
     private javax.swing.JTextField txtFechaNac;
     private javax.swing.JTextField txtNombre;
     private javax.swing.JTextField txtNum;
+    private javax.swing.JTextField txtUsuario;
     // End of variables declaration//GEN-END:variables
 }

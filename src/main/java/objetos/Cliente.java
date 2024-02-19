@@ -1,69 +1,55 @@
 package objetos;
 
 import java.sql.Date;
+import java.util.Objects;
 
 /**
  * @author Pedro Moya, Adriana Gutiérrez
  */
 public class Cliente {
     
-    int id;
-    String nombre, apellido_paterno, apellido_materno;
-    String contrasenia;
-    int edad;
-    Date fecha_nacimiento;
-    String calle, num, colonia;
+    private Long id;
+    private String nombre;
+    private String apellidoPaterno;
+    private String apellidoMaterno;
+    private String usuario;
+    private String contrasena;
+    private String fechaNacimiento;
+    private String calle, numeroExterior, colonia;
 
     public Cliente() {
     }
 
-    public Cliente(int id) {
+    public Cliente(String nombre, String apellidoPaterno, String apellidoMaterno, String usuario, String contrasena, String fechaNacimiento, String calle, String numeroExterior, String colonia) {
+        this.nombre = nombre;
+        this.apellidoPaterno = apellidoPaterno;
+        this.apellidoMaterno = apellidoMaterno;
+        this.usuario = usuario;
+        this.contrasena = contrasena;
+        this.fechaNacimiento = fechaNacimiento;
+        this.calle = calle;
+        this.numeroExterior = numeroExterior;
+        this.colonia = colonia;
+    }
+
+    public Cliente(Long id, String nombre, String apellidoPaterno, String apellidoMaterno, String usuario, String contrasena, String fechaNacimiento, String calle, String numeroExterior, String colonia) {
         this.id = id;
-    }
-
-    public Cliente(int id, String nombre, String apellido_paterno, String apellido_materno, String contrasenia, int edad, Date fecha_nacimiento, String calle, String num, String colonia) {
-        this.id = id;
         this.nombre = nombre;
-        this.apellido_paterno = apellido_paterno;
-        this.apellido_materno = apellido_materno;
-        this.contrasenia = contrasenia;
-        this.edad = edad;
-        this.fecha_nacimiento = fecha_nacimiento;
+        this.apellidoPaterno = apellidoPaterno;
+        this.apellidoMaterno = apellidoMaterno;
+        this.usuario = usuario;
+        this.contrasena = contrasena;
+        this.fechaNacimiento = fechaNacimiento;
         this.calle = calle;
-        this.num = num;
+        this.numeroExterior = numeroExterior;
         this.colonia = colonia;
     }
 
-    public Cliente(String nombre, String apellido_paterno, String apellido_materno, String contrasenia, int edad, Date fecha_nacimiento, String calle, String num, String colonia) {
-        this.nombre = nombre;
-        this.apellido_paterno = apellido_paterno;
-        this.apellido_materno = apellido_materno;
-        this.contrasenia = contrasenia;
-        this.edad = edad;
-        this.fecha_nacimiento = fecha_nacimiento;
-        this.calle = calle;
-        this.num = num;
-        this.colonia = colonia;
-    }
-
-    public Cliente(String nombre, String apellido_paterno, String apellido_materno, Date fecha_nacimiento,String contrasenia, String calle, String num, String colonia) {
-        this.nombre = nombre;
-        this.apellido_paterno = apellido_paterno;
-        this.apellido_materno = apellido_materno;
-        this.fecha_nacimiento = fecha_nacimiento;
-        this.contrasenia = contrasenia;
-        this.calle = calle;
-        this.num = num;
-        this.colonia = colonia;
-    }
-
-    
-    
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -75,44 +61,44 @@ public class Cliente {
         this.nombre = nombre;
     }
 
-    public String getApellido_paterno() {
-        return apellido_paterno;
+    public String getApellidoPaterno() {
+        return apellidoPaterno;
     }
 
-    public void setApellido_paterno(String apellido_paterno) {
-        this.apellido_paterno = apellido_paterno;
+    public void setApellidoPaterno(String apellidoPaterno) {
+        this.apellidoPaterno = apellidoPaterno;
     }
 
-    public String getApellido_materno() {
-        return apellido_materno;
+    public String getApellidoMaterno() {
+        return apellidoMaterno;
     }
 
-    public void setApellido_materno(String apellido_materno) {
-        this.apellido_materno = apellido_materno;
+    public void setApellidoMaterno(String apellidoMaterno) {
+        this.apellidoMaterno = apellidoMaterno;
     }
 
-    public String getContrasenia() {
-        return contrasenia;
+    public String getUsuario() {
+        return usuario;
     }
 
-    public void setContrasenia(String contrasenia) {
-        this.contrasenia = contrasenia;
+    public void setUsuario(String usuario) {
+        this.usuario = usuario;
     }
 
-    public int getEdad() {
-        return edad;
+    public String getContrasena() {
+        return contrasena;
     }
 
-    public void setEdad(int edad) {
-        this.edad = edad;
+    public void setContrasena(String contrasena) {
+        this.contrasena = contrasena;
     }
 
-    public Date getFecha_nacimiento() {
-        return fecha_nacimiento;
+    public String getFechaNacimiento() {
+        return fechaNacimiento;
     }
 
-    public void setFecha_nacimiento(Date fecha_nacimiento) {
-        this.fecha_nacimiento = fecha_nacimiento;
+    public void setFechaNacimiento(String fechaNacimiento) {
+        this.fechaNacimiento = fechaNacimiento;
     }
 
     public String getCalle() {
@@ -123,12 +109,12 @@ public class Cliente {
         this.calle = calle;
     }
 
-    public String getNum() {
-        return num;
+    public String getNumeroExterior() {
+        return numeroExterior;
     }
 
-    public void setNum(String num) {
-        this.num = num;
+    public void setNumeroExterior(String numeroExterior) {
+        this.numeroExterior = numeroExterior;
     }
 
     public String getColonia() {
@@ -140,14 +126,9 @@ public class Cliente {
     }
 
     @Override
-    public String toString() {
-        return "Cliente{" + "id=" + id + ", nombre=" + nombre + ", apellido_paterno=" + apellido_paterno + ", apellido_materno=" + apellido_materno + ", contrasenia=" + contrasenia + ", edad=" + edad + ", fecha_nacimiento=" + fecha_nacimiento + ", calle=" + calle + ", num=" + num + ", colonia=" + colonia + '}';
-    }
-
-    @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 71 * hash + this.id;
+        int hash = 5;
+        hash = 53 * hash + Objects.hashCode(this.id);
         return hash;
     }
 
@@ -163,7 +144,30 @@ public class Cliente {
             return false;
         }
         final Cliente other = (Cliente) obj;
-        return this.id == other.id;
+        return Objects.equals(this.id, other.id);
     }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Cliente{");
+        sb.append("id=").append(id);
+        sb.append(", nombre=").append(nombre);
+        sb.append(", apellidoPaterno=").append(apellidoPaterno);
+        sb.append(", apellidoMaterno=").append(apellidoMaterno);
+        sb.append(", usuario=").append(usuario);
+        sb.append(", contrasena=").append(contrasena);
+        sb.append(", fechaNacimiento=").append(fechaNacimiento);
+        sb.append(", calle=").append(calle);
+        sb.append(", numeroExterior=").append(numeroExterior);
+        sb.append(", colonia=").append(colonia);
+        sb.append('}');
+        return sb.toString();
+    }
+
+    
+    
+
+    
     
 }

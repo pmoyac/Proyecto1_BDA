@@ -22,29 +22,26 @@ public class CuentaDAO implements ICuenta{
 
     @Override
     public Cuenta agregarCuenta(Cuenta c) throws PersistenciaException {
-        String agregarCuenta = "INSERT INTO cuentas (numero_cuenta, saldo, fecha_apertura) VALUES (?, ?, ?)";
-        
-        Connection con;
-        try {
-            con = conexion.crearConexion();
-            PreparedStatement insert = con.prepareStatement(agregarCuenta);
-            insert.setInt(1, c.getNumero_cuenta());
-            insert.setFloat(2, c.getSaldo());
-            insert.setDate(3, c.getFecha_apertura());
-            insert.executeUpdate();
-            
-            //ResultSet res = insert.getGeneratedKeys();
-
-            
-            
-        } catch (SQLException ex) {
-            //Logger.getLogger(CuentaDAO.class.getName()).log(Level.SEVERE, null, ex);
-            throw new PersistenciaException("No fue posible agregar la cuenta");
-        }
-        return null;
-            
-        
-       
+//        String agregarCuenta = "INSERT INTO cuentas (numero_cuenta, saldo, fecha_apertura) VALUES (?, ?, ?)";
+//        
+//        Connection con;
+//        try {
+//            con = conexion.crearConexion();
+//            PreparedStatement insert = con.prepareStatement(agregarCuenta);
+//            insert.setInt(1, c.getNumero_cuenta());
+//            insert.setFloat(2, c.getSaldo());
+//            insert.setDate(3, c.getFecha_apertura());
+//            insert.executeUpdate();
+//            
+//            //ResultSet res = insert.getGeneratedKeys();
+//
+//            
+//            
+//        } catch (SQLException ex) {
+//            //Logger.getLogger(CuentaDAO.class.getName()).log(Level.SEVERE, null, ex);
+//            throw new PersistenciaException("No fue posible agregar la cuenta");
+//        }
+        return null;     
     }
 
     @Override

@@ -1,71 +1,91 @@
 package objetos;
 
 import java.sql.Date;
+import java.util.Objects;
 
 /**
  * @author Pedro Moya, Adriana Gutiérrez
  */
 public class Cuenta {
 
-    int numero_cuenta;
-    float saldo;
-    Date fecha_apertura;
-    int id_cliente;
-
+    private Long idCuenta;
+    private String fechaApertura;
+    private String numeroCuenta;
+    private String estadoCuenta;
+    private double saldo;
+    private Long idCliente;
+    
     public Cuenta() {
     }
 
-    public Cuenta(float saldo, Date fecha_apertura) {
+    public Cuenta(Long idCuenta, String fechaApertura, String numeroCuenta, String estadoCuenta, double saldo, Long idCliente) {
+        this.idCuenta = idCuenta;
+        this.fechaApertura = fechaApertura;
+        this.numeroCuenta = numeroCuenta;
+        this.estadoCuenta = estadoCuenta;
         this.saldo = saldo;
-        this.fecha_apertura = fecha_apertura;
+        this.idCliente = idCliente;
     }
 
-    public Cuenta(float saldo, Date fecha_apertura, int id_cliente) {
+    public Cuenta(String fechaApertura, String numeroCuenta, String estadoCuenta, double saldo) {
+        this.fechaApertura = fechaApertura;
+        this.numeroCuenta = numeroCuenta;
+        this.estadoCuenta = estadoCuenta;
         this.saldo = saldo;
-        this.fecha_apertura = fecha_apertura;
-        this.id_cliente = id_cliente;
-    }
-    
-    
-
-    public int getNumero_cuenta() {
-        return numero_cuenta;
     }
 
-    public void setNumero_cuenta(int numero_cuenta) {
-        this.numero_cuenta = numero_cuenta;
+    public Long getIdCuenta() {
+        return idCuenta;
     }
 
-    public float getSaldo() {
+    public void setIdCuenta(Long idCuenta) {
+        this.idCuenta = idCuenta;
+    }
+
+    public String getFechaApertura() {
+        return fechaApertura;
+    }
+
+    public void setFechaApertura(String fechaApertura) {
+        this.fechaApertura = fechaApertura;
+    }
+
+    public String getNumeroCuenta() {
+        return numeroCuenta;
+    }
+
+    public void setNumeroCuenta(String numeroCuenta) {
+        this.numeroCuenta = numeroCuenta;
+    }
+
+    public String getEstadoCuenta() {
+        return estadoCuenta;
+    }
+
+    public void setEstadoCuenta(String estadoCuenta) {
+        this.estadoCuenta = estadoCuenta;
+    }
+
+    public double getSaldo() {
         return saldo;
     }
 
-    public void setSaldo(float saldo) {
+    public void setSaldo(double saldo) {
         this.saldo = saldo;
     }
 
-    public Date getFecha_apertura() {
-        return fecha_apertura;
+    public Long getIdCliente() {
+        return idCliente;
     }
 
-    public void setFecha_apertura(Date fecha_apertura) {
-        this.fecha_apertura = fecha_apertura;
+    public void setIdCliente(Long idCliente) {
+        this.idCliente = idCliente;
     }
-
-    public int getId_cliente() {
-        return id_cliente;
-    }
-
-    public void setId_cliente(int id_cliente) {
-        this.id_cliente = id_cliente;
-    }
-    
-    
 
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 89 * hash + this.numero_cuenta;
+        hash = 17 * hash + Objects.hashCode(this.idCuenta);
         return hash;
     }
 
@@ -81,13 +101,23 @@ public class Cuenta {
             return false;
         }
         final Cuenta other = (Cuenta) obj;
-        return this.numero_cuenta == other.numero_cuenta;
+        return Objects.equals(this.idCuenta, other.idCuenta);
     }
 
     @Override
     public String toString() {
-        return "Cuenta{" + "numero_cuenta=" + numero_cuenta + ", saldo=" + saldo + ", fecha_apertura=" + fecha_apertura + '}';
+        StringBuilder sb = new StringBuilder();
+        sb.append("Cuenta{");
+        sb.append("idCuenta=").append(idCuenta);
+        sb.append(", fechaApertura=").append(fechaApertura);
+        sb.append(", numeroCuenta=").append(numeroCuenta);
+        sb.append(", estadoCuenta=").append(estadoCuenta);
+        sb.append(", saldo=").append(saldo);
+        sb.append(", idCliente=").append(idCliente);
+        sb.append('}');
+        return sb.toString();
     }
+
     
     
 }

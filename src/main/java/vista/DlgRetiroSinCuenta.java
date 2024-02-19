@@ -14,6 +14,12 @@ public class DlgRetiroSinCuenta extends javax.swing.JDialog {
         initComponents();
     }
 
+    public DlgRetiroSinCuenta() {
+        initComponents();
+    }
+    
+    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -158,7 +164,9 @@ public class DlgRetiroSinCuenta extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
-        // TODO add your handling code here:
+         dispose();
+         frmPrincipal p = new frmPrincipal();
+         p.setVisible(true);
     }//GEN-LAST:event_btnCancelarActionPerformed
 
 

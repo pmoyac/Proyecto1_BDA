@@ -1,6 +1,9 @@
 package vista;
 
+import control.Control;
+import datos.ConexionBD;
 import interfaces.ICliente;
+import interfaces.IConexion;
 import javax.swing.JOptionPane;
 import objetos.Cliente;
 
@@ -12,11 +15,19 @@ public class frmPrincipal extends javax.swing.JFrame {
 
     private Cliente cliente;
     ICliente clienteDAO;  
+    Control control;
+    
+    String cadenaConexion = "jdbc:mysql://localhost:3306/banco";
+        String user = "root";
+        String password = "1234";
+        
+        IConexion baseDatos;
     
     /**
      * Creates new form Inicio
      */
     public frmPrincipal() {
+        baseDatos= new ConexionBD(cadenaConexion, user, password);
         initComponents();
     }
 
@@ -35,7 +46,6 @@ public class frmPrincipal extends javax.swing.JFrame {
         btnIniciarSesion = new javax.swing.JButton();
         btnRegistrar = new javax.swing.JButton();
         btnRetiro = new javax.swing.JButton();
-        btnCerrarSesion = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Banco JV");
@@ -87,16 +97,6 @@ public class frmPrincipal extends javax.swing.JFrame {
             }
         });
 
-        btnCerrarSesion.setFont(new java.awt.Font("Berlin Sans FB", 0, 18)); // NOI18N
-        btnCerrarSesion.setText("Cerrar sesión");
-        btnCerrarSesion.setBorder(null);
-        btnCerrarSesion.setBorderPainted(false);
-        btnCerrarSesion.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCerrarSesionActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -113,10 +113,6 @@ public class frmPrincipal extends javax.swing.JFrame {
                             .addComponent(btnRetiro, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(216, 216, 216))))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnCerrarSesion, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(26, 26, 26))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -131,9 +127,7 @@ public class frmPrincipal extends javax.swing.JFrame {
                 .addComponent(btnRegistrar)
                 .addGap(18, 18, 18)
                 .addComponent(btnRetiro)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE)
-                .addComponent(btnCerrarSesion, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(30, 30, 30))
+                .addContainerGap(92, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -152,33 +146,22 @@ public class frmPrincipal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnIniciarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIniciarSesionActionPerformed
-        if (cliente == null) {
-           // cliente = control.iniciarSesion(this);
-        } else {
-            JOptionPane.showMessageDialog(rootPane, "Ya se ha iniciado sesión",
-                    "Warning", JOptionPane.WARNING_MESSAGE);
-        }
-        
+        DlgInicioSesion iniciarS = new DlgInicioSesion();
+        iniciarS.setVisible(true);
+        dispose();
     }//GEN-LAST:event_btnIniciarSesionActionPerformed
 
     private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
-        
+        DlgRegistrarCliente registro = new DlgRegistrarCliente(baseDatos);
+        registro.setVisible(true);
+        dispose();
     }//GEN-LAST:event_btnRegistrarActionPerformed
 
     private void btnRetiroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRetiroActionPerformed
-        // TODO add your handling code here:
+        DlgRetiroSinCuenta retiro = new DlgRetiroSinCuenta();
+        retiro.setVisible(true);
+        dispose();
     }//GEN-LAST:event_btnRetiroActionPerformed
-
-    private void btnCerrarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrarSesionActionPerformed
-        if (cliente != null) {
-            cliente = null;
-            JOptionPane.showMessageDialog(rootPane, "Sesión cerrada exitosamente",
-                    "Cerrar sesión", JOptionPane.INFORMATION_MESSAGE);
-        } else {
-            JOptionPane.showMessageDialog(this, "No se ha iniciado sesión",
-                    "Información", JOptionPane.INFORMATION_MESSAGE);
-        }
-    }//GEN-LAST:event_btnCerrarSesionActionPerformed
 
     /**
      * @param args the command line arguments
@@ -219,7 +202,6 @@ public class frmPrincipal extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnCerrarSesion;
     private javax.swing.JButton btnIniciarSesion;
     private javax.swing.JButton btnRegistrar;
     private javax.swing.JButton btnRetiro;

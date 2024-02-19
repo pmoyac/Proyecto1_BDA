@@ -1,5 +1,6 @@
 package datos;
 
+import DTOs.ClienteDTO;
 import excepciones.PersistenciaException;
 import interfaces.ICliente;
 import interfaces.IConexion;
@@ -19,52 +20,58 @@ import objetos.Cliente;
 public class ClienteDAO implements ICliente{
     
     private final IConexion conexion;
-    private static final Logger LOG = Logger.getLogger(ClienteDAO.class.getName());
+    static final Logger logger = Logger.getLogger(ClienteDAO.class.getName());
+
 
     public ClienteDAO(IConexion conexion) {
         this.conexion = conexion;
-    }
-    
-    
+    } 
+
     @Override
-     public Cliente registrarCliente(Cliente c) throws PersistenciaException {
-        
-        String createClient = "INSERT INTO clientes"
-                + "(nombre, apellido_paterno, apellido_materno,fecha_nacimiento, contrasenia, calle, num, colonia)"
-                + "VALUES (?,?,?,?,?,?,?,?)";
+    public Cliente registrarCliente(ClienteDTO clienteDTO) throws PersistenciaException {
+        String createClient = """
+                              INSERT INTO clientes (nombre, apellido_paterno, apellido_materno, usuario, contrasenia, fecha_nacimiento, calle, num, colonia) 
+                              VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);
+                              """;
         
         Cliente resultado=null;
         
-        try {
-            Connection cn = conexion.crearConexion();
-            PreparedStatement insert = cn.prepareStatement(createClient, Statement.RETURN_GENERATED_KEYS);
-           
-            insert.setString(1, c.getNombre());
-            insert.setString(2, c.getApellido_paterno());
-            insert.setString(3, c.getApellido_materno());
-            insert.setDate(4, c.getFecha_nacimiento());
-            insert.setString(5, c.getContrasenia());
-            insert.setString(6, c.getCalle());
-            insert.setString(7, c.getNum());
-            insert.setString(8, c.getColonia());
+        try (
+            Connection conexion = this.conexion.crearConexion();
+            PreparedStatement comando = conexion.prepareStatement(createClient, Statement.RETURN_GENERATED_KEYS);
+        ) {
+            comando.setString(1, clienteDTO.getNombre());
+            comando.setString(2, clienteDTO.getApellidoPaterno());
+            comando.setString(3, clienteDTO.getApellidoMaterno());
+            comando.setString(4, clienteDTO.getUsuario());
+            comando.setString(5, clienteDTO.getContrasena());
+            comando.setString(6, clienteDTO.getFechaNacimiento());
+            comando.setString(7, clienteDTO.getCalle());
+            comando.setString(8, clienteDTO.getNumeroExterior());
+            comando.setString(9, clienteDTO.getColonia());
             
-            resultado = buscarCliente(c.getId());
-            return resultado;
+            int numeroRegistrosInsertados = comando.executeUpdate();
+            logger.log(Level.INFO, "Se agregaron {0} clientes", numeroRegistrosInsertados);
+            ResultSet idsGenerados = comando.getGeneratedKeys();
+            idsGenerados.next();
+     
+            Cliente cliente = new Cliente(idsGenerados.getLong(1), clienteDTO.getNombre(), clienteDTO.getApellidoPaterno(), clienteDTO.getApellidoMaterno(), clienteDTO.getUsuario(),
+            clienteDTO.getContrasena(), clienteDTO.getFechaNacimiento(), clienteDTO.getCalle(), clienteDTO.getNumeroExterior(), clienteDTO.getColonia());
+            return cliente;
             
         } catch (SQLException e) {
-            LOG.log(Level.SEVERE, e.getMessage());
-            throw new PersistenciaException("No fue posible agregar el cliente" + e.getMessage());
-        }       
+            logger.log(Level.SEVERE, "No se pudo registrar el usuario", e);
+            throw new PersistenciaException("No se pudo", e);
+        }    
     }
 
     @Override
-    public Cliente actualizarCliente(Cliente c) throws PersistenciaException {
+    public Cliente actualizarCliente(ClienteDTO clienteDTO) throws PersistenciaException {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
     public Cliente buscarCliente(int id) throws PersistenciaException {
-
         String searchClient = "SELECT * FROM clientes"
                 + " WHERE id=" + id;
         
@@ -82,21 +89,24 @@ public class ClienteDAO implements ICliente{
                 String nombre = res.getString("nombre");
                 String apellido_paterno = res.getString("apellido_paterno");
                 String apellido_materno = res.getString("apellido_materno");
-                Date fecha_nacimiento = res.getDate("fecha_nacimiento");
-                String contrasenia = res.getString("contrasenia");
+                String usuario = res.getString("usuario");
+                String contrasena = res.getString("contrasenia");
+                String fecha_nacimiento = res.getString("fecha_nacimiento");
                 String calle = res.getString("calle");
-                String num = res.getString("num");
+                String numeroExt = res.getString("num");
                 String colonia = res.getString("colonia");
                 
-                resultado = new Cliente(nombre, apellido_paterno, apellido_materno, fecha_nacimiento, contrasenia, calle, num, colonia);
-                return resultado;
+                resultado = new Cliente(nombre, apellido_paterno, apellido_materno, usuario,
+                        contrasena, fecha_nacimiento, calle, numeroExt, colonia);
+         //       return resultado;
             }
             
         } catch (SQLException e) {
-            LOG.log(Level.SEVERE, e.getMessage());
+            logger.log(Level.SEVERE, e.getMessage());
             throw new PersistenciaException("No fue posible buscar al cliente" + e.getMessage());
         }
         return resultado;
+
     }
     
 }

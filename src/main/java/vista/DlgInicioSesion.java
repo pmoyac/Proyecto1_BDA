@@ -1,5 +1,7 @@
 package vista;
 
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author adria
@@ -13,6 +15,12 @@ public class DlgInicioSesion extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
     }
+
+    public DlgInicioSesion() {
+        initComponents();
+    }
+    
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -56,7 +64,7 @@ public class DlgInicioSesion extends javax.swing.JDialog {
 
         jLabel3.setBackground(new java.awt.Color(0, 0, 0));
         jLabel3.setFont(new java.awt.Font("Berlin Sans FB", 0, 24)); // NOI18N
-        jLabel3.setText("No. de cliente:");
+        jLabel3.setText("Usuario:");
 
         txtNoCliente.setFont(new java.awt.Font("Berlin Sans FB", 0, 24)); // NOI18N
 
@@ -90,12 +98,17 @@ public class DlgInicioSesion extends javax.swing.JDialog {
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtContrasenia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(52, Short.MAX_VALUE))
+                .addContainerGap(42, Short.MAX_VALUE))
         );
 
         btnAceptar.setFont(new java.awt.Font("Berlin Sans FB", 0, 24)); // NOI18N
         btnAceptar.setText("Aceptar");
         btnAceptar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnAceptar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAceptarActionPerformed(evt);
+            }
+        });
 
         btnCancelar.setFont(new java.awt.Font("Berlin Sans FB", 0, 24)); // NOI18N
         btnCancelar.setText("Cancelar");
@@ -135,7 +148,7 @@ public class DlgInicioSesion extends javax.swing.JDialog {
                 .addComponent(jLabel2)
                 .addGap(26, 26, 26)
                 .addComponent(panelRound1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGap(28, 28, 28)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnAceptar, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -158,8 +171,26 @@ public class DlgInicioSesion extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
-        // TODO add your handling code here:
+        dispose();
+        frmPrincipal p = new frmPrincipal();
+        p.setVisible(true);
     }//GEN-LAST:event_btnCancelarActionPerformed
+
+    private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
+        
+        if(txtNoCliente.getText().isBlank() || txtContrasenia.getText().isBlank()){
+            JOptionPane.showMessageDialog(this, "Asegúrese de llenar todos los campos",
+                    "Error", JOptionPane.WARNING_MESSAGE);
+        }else{
+            
+            
+            
+            frmInicio inicio = new frmInicio();
+            inicio.setVisible(true);
+            dispose();
+        }
+        
+    }//GEN-LAST:event_btnAceptarActionPerformed
 
     
 

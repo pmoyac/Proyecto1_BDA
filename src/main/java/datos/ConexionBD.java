@@ -10,7 +10,7 @@ import java.sql.SQLException;
  * @author Pedro Moya, Adriana Gutiérrez
  */
 public class ConexionBD implements IConexion{
-    private String cadenaConexion;
+    String cadenaConexion;
     private String usuario;
     private String contrasena;
 
@@ -26,4 +26,5 @@ public class ConexionBD implements IConexion{
         Connection c = DriverManager.getConnection(cadenaConexion, usuario, contrasena);
         return c;
     }
+    
 }
