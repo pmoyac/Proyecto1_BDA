@@ -74,7 +74,7 @@ public class ClienteDAO implements ICliente{
        
 
         Cliente resultado = null;
-
+        
         try {
             Connection c = conexion.crearConexion();
             PreparedStatement search = c.prepareStatement(searchClient);
