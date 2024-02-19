@@ -1,27 +1,12 @@
 package com.mycompany.proyecto1_bda;
 
-import datos.ClienteDAO;
-import datos.ConexionBD;
-import excepciones.PersistenciaException;
-import interfaces.ICliente;
-import interfaces.IConexion;
-import java.sql.Date;
-import objetos.Cliente;
-import datos.CuentaDAO;
-import excepciones.PersistenciaException;
-import interfaces.ICliente;
-import interfaces.IConexion;
-import interfaces.ICuenta;
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import objetos.Cuenta;
+import vista.frmPrincipal;
 
 /**
  * @author Pedro Moya, Adriana Gutiérrez
  */
 public class Proyecto1_BDA {
+    
 
 //    public static void main(String[] args) {
 //

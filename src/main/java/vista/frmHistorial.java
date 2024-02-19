@@ -41,7 +41,7 @@ public class frmHistorial extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Berlin Sans FB", 0, 40)); // NOI18N
         jLabel1.setText("Banco JV");
 
-        jLabel2.setFont(new java.awt.Font("Berlin Sans FB", 0, 48)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("Berlin Sans FB", 0, 40)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(56, 89, 22));
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel2.setText("Historial de operaciones");
@@ -82,7 +82,7 @@ public class frmHistorial extends javax.swing.JFrame {
                     .addComponent(lblNombreCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(33, 33, 33)
                 .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 242, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 250, Short.MAX_VALUE)
                 .addComponent(btnRegresar)
                 .addGap(30, 30, 30))
         );
