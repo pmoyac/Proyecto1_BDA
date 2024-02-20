@@ -25,7 +25,6 @@ public class DlgTransferir extends javax.swing.JDialog {
 
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        lblNombreCliente = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
@@ -44,9 +43,6 @@ public class DlgTransferir extends javax.swing.JDialog {
         jLabel1.setFont(new java.awt.Font("Berlin Sans FB", 0, 40)); // NOI18N
         jLabel1.setText("Banco JV");
 
-        lblNombreCliente.setFont(new java.awt.Font("Berlin Sans FB", 0, 18)); // NOI18N
-        lblNombreCliente.setText("nombrecliente");
-
         jLabel2.setFont(new java.awt.Font("Berlin Sans FB", 0, 30)); // NOI18N
         jLabel2.setText("Cuenta origen:");
 
@@ -58,6 +54,11 @@ public class DlgTransferir extends javax.swing.JDialog {
 
         btnCancelar.setFont(new java.awt.Font("Berlin Sans FB", 0, 30)); // NOI18N
         btnCancelar.setText("Cancelar");
+        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelarActionPerformed(evt);
+            }
+        });
 
         btnAceptar1.setFont(new java.awt.Font("Berlin Sans FB", 0, 30)); // NOI18N
         btnAceptar1.setText("Aceptar");
@@ -83,8 +84,7 @@ public class DlgTransferir extends javax.swing.JDialog {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(15, 15, 15)
                         .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(lblNombreCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(71, 71, 71)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -104,16 +104,14 @@ public class DlgTransferir extends javax.swing.JDialog {
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(144, 144, 144)
                                 .addComponent(btnCancelar)
-                                .addGap(0, 146, Short.MAX_VALUE)))))
+                                .addGap(0, 152, Short.MAX_VALUE)))))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblNombreCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1))
+                .addComponent(jLabel1)
                 .addGap(72, 72, 72)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel2)
@@ -152,6 +150,12 @@ public class DlgTransferir extends javax.swing.JDialog {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtCantidadActionPerformed
 
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+        frmInicio inicio = new frmInicio();
+        inicio.setVisible(true);
+        dispose();      
+    }//GEN-LAST:event_btnCancelarActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -166,7 +170,6 @@ public class DlgTransferir extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JLabel lblNombreCliente;
     private javax.swing.JTextField txtCantidad;
     private javax.swing.JTextField txtCuentaDestino;
     // End of variables declaration//GEN-END:variables

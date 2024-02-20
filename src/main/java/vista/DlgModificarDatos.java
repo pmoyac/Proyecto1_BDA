@@ -38,7 +38,7 @@ public class DlgModificarDatos extends javax.swing.JDialog {
         this.txtCalle.setText(cl.getCalle());
         this.txtNum.setText(cl.getNum());
         this.txtColonia.setText(cl.getColonia());
-        this.jDateChooser1.setDate(cl.getFecha_nacimiento());
+        this.jDateFecha.setDate(cl.getFecha_nacimiento());
     }
     
     private boolean validartxt(JTextField jTextField, String errorMessage) {
@@ -77,7 +77,7 @@ public class DlgModificarDatos extends javax.swing.JDialog {
     public void actualizarCliente() throws PersistenciaException{
         if (validarCliente()) {
             java.util.Date javaDate = new java.util.Date();
-        javaDate= this.jDateChooser1.getDate();
+        javaDate= this.jDateFecha.getDate();
         
         
         Date fechasql = new Date(javaDate.getTime());
@@ -123,7 +123,7 @@ public class DlgModificarDatos extends javax.swing.JDialog {
         btnAceptar = new javax.swing.JButton();
         btnRestaurar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
-        jDateChooser1 = new com.toedter.calendar.JDateChooser();
+        jDateFecha = new com.toedter.calendar.JDateChooser();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Modificar datos");
@@ -199,6 +199,11 @@ public class DlgModificarDatos extends javax.swing.JDialog {
         btnCancelar.setFont(new java.awt.Font("Berlin Sans FB", 0, 24)); // NOI18N
         btnCancelar.setText("Cancelar");
         btnCancelar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -210,7 +215,7 @@ public class DlgModificarDatos extends javax.swing.JDialog {
                 .addComponent(btnAceptar, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(68, 68, 68)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jDateChooser1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jDateFecha, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnRestaurar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(68, 68, 68)
                 .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -248,7 +253,7 @@ public class DlgModificarDatos extends javax.swing.JDialog {
                 .addGap(14, 14, 14)
                 .addComponent(jLabel1)
                 .addGap(143, 143, 143)
-                .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jDateFecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 171, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnAceptar)
@@ -308,7 +313,13 @@ public class DlgModificarDatos extends javax.swing.JDialog {
     }//GEN-LAST:event_txtCalleActionPerformed
 
     private void btnRestaurarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRestaurarActionPerformed
-        // TODO add your handling code here:
+        txtNombre.setText("");
+        txtApellidoP.setText("");
+        txtApellidoM.setText("");
+        jDateFecha.setCalendar(null);
+        txtCalle.setText("");
+        txtNum.setText("");
+        txtColonia.setText("");
     }//GEN-LAST:event_btnRestaurarActionPerformed
 
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
@@ -320,12 +331,18 @@ public class DlgModificarDatos extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_btnAceptarActionPerformed
 
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+        frmInicio inicio = new frmInicio();
+        inicio.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_btnCancelarActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAceptar;
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnRestaurar;
-    private com.toedter.calendar.JDateChooser jDateChooser1;
+    private com.toedter.calendar.JDateChooser jDateFecha;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

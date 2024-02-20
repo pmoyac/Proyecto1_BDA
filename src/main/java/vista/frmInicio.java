@@ -3,6 +3,7 @@ package vista;
 import excepciones.PersistenciaException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -14,10 +15,17 @@ public class frmInicio extends javax.swing.JFrame {
      * Creates new form frmInicio
      * @param id
      */
-    public frmInicio(int id) {
+    public frmInicio(int id, String nombre, String apellidoPaterno) {
         initComponents();
         idc = id;
+        txtNombreCliente.setText(nombre+" "+apellidoPaterno);
     }
+
+    public frmInicio() {
+        initComponents();
+    }
+    
+    
     
     /**
      * This method is called from within the constructor to initialize the form.
@@ -31,12 +39,13 @@ public class frmInicio extends javax.swing.JFrame {
         jComboBox1 = new javax.swing.JComboBox<>();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        lblNombreCliente = new javax.swing.JLabel();
         btnHistorial = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         btnGenerarRetiro = new javax.swing.JButton();
         btnTransferir = new javax.swing.JButton();
         btnActualizar = new javax.swing.JButton();
+        btnRegresar = new javax.swing.JButton();
+        txtNombreCliente = new javax.swing.JTextField();
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
@@ -48,16 +57,18 @@ public class frmInicio extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Berlin Sans FB", 0, 40)); // NOI18N
         jLabel1.setText("Banco JV");
 
-        lblNombreCliente.setFont(new java.awt.Font("Berlin Sans FB", 0, 18)); // NOI18N
-        lblNombreCliente.setText("nombrecliente");
-
         btnHistorial.setFont(new java.awt.Font("Berlin Sans FB", 0, 24)); // NOI18N
         btnHistorial.setText("Historial");
+        btnHistorial.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnHistorialActionPerformed(evt);
+            }
+        });
 
         jLabel2.setFont(new java.awt.Font("Berlin Sans FB", 0, 25)); // NOI18N
         jLabel2.setText("Cuentas:");
 
-        btnGenerarRetiro.setFont(new java.awt.Font("Berlin Sans FB", 0, 30)); // NOI18N
+        btnGenerarRetiro.setFont(new java.awt.Font("Berlin Sans FB", 0, 24)); // NOI18N
         btnGenerarRetiro.setText("Generar retiro");
         btnGenerarRetiro.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -65,14 +76,38 @@ public class frmInicio extends javax.swing.JFrame {
             }
         });
 
-        btnTransferir.setFont(new java.awt.Font("Berlin Sans FB", 0, 30)); // NOI18N
+        btnTransferir.setFont(new java.awt.Font("Berlin Sans FB", 0, 24)); // NOI18N
         btnTransferir.setText("Transferir");
+        btnTransferir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTransferirActionPerformed(evt);
+            }
+        });
 
         btnActualizar.setFont(new java.awt.Font("Berlin Sans FB", 0, 24)); // NOI18N
         btnActualizar.setText("Modificar datos");
         btnActualizar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnActualizarActionPerformed(evt);
+            }
+        });
+
+        btnRegresar.setFont(new java.awt.Font("Berlin Sans FB", 0, 20)); // NOI18N
+        btnRegresar.setText("Cerrar sesión");
+        btnRegresar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRegresarActionPerformed(evt);
+            }
+        });
+
+        txtNombreCliente.setEditable(false);
+        txtNombreCliente.setBackground(new java.awt.Color(185, 207, 180));
+        txtNombreCliente.setFont(new java.awt.Font("Berlin Sans FB", 0, 24)); // NOI18N
+        txtNombreCliente.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        txtNombreCliente.setBorder(null);
+        txtNombreCliente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtNombreClienteActionPerformed(evt);
             }
         });
 
@@ -86,21 +121,24 @@ public class frmInicio extends javax.swing.JFrame {
                         .addGap(95, 95, 95)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(btnTransferir, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 101, Short.MAX_VALUE)
-                                .addComponent(btnGenerarRetiro)
-                                .addGap(71, 71, 71))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel2)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(btnHistorial, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addComponent(btnHistorial, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addComponent(btnTransferir, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 137, Short.MAX_VALUE)
+                                .addComponent(btnGenerarRetiro)
+                                .addGap(71, 71, 71))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(14, 14, 14)
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblNombreCliente, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnActualizar, javax.swing.GroupLayout.Alignment.TRAILING))))
+                            .addComponent(btnActualizar, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(txtNombreCliente, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 325, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(btnRegresar)))
                 .addGap(24, 24, 24))
         );
         jPanel1Layout.setVerticalGroup(
@@ -113,7 +151,8 @@ public class frmInicio extends javax.swing.JFrame {
                         .addGap(39, 39, 39)
                         .addComponent(jLabel2))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(lblNombreCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(2, 2, 2)
+                        .addComponent(txtNombreCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnActualizar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -122,7 +161,9 @@ public class frmInicio extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnGenerarRetiro)
                     .addComponent(btnTransferir))
-                .addGap(66, 66, 66))
+                .addGap(18, 18, 18)
+                .addComponent(btnRegresar)
+                .addGap(25, 25, 25))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -166,6 +207,29 @@ public class frmInicio extends javax.swing.JFrame {
        this.setVisible(false);
     }//GEN-LAST:event_btnGenerarRetiroActionPerformed
 
+    private void btnTransferirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTransferirActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnTransferirActionPerformed
+
+    private void txtNombreClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNombreClienteActionPerformed
+    }//GEN-LAST:event_txtNombreClienteActionPerformed
+
+    private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
+        txtNombreCliente.setText("");
+        
+        JOptionPane.showMessageDialog(this, "Se cerró sesión correctamente", 
+                "Cerrar sesión", JOptionPane.INFORMATION_MESSAGE);
+        frmPrincipal principal = new frmPrincipal();
+        principal.setVisible(true);
+        dispose(); 
+    }//GEN-LAST:event_btnRegresarActionPerformed
+
+    private void btnHistorialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHistorialActionPerformed
+        frmHistorial historial = new frmHistorial();
+        historial.setVisible(true);  
+        dispose();
+    }//GEN-LAST:event_btnHistorialActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -175,11 +239,12 @@ public class frmInicio extends javax.swing.JFrame {
     private javax.swing.JButton btnActualizar;
     private javax.swing.JButton btnGenerarRetiro;
     private javax.swing.JButton btnHistorial;
+    private javax.swing.JButton btnRegresar;
     private javax.swing.JButton btnTransferir;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JLabel lblNombreCliente;
+    private javax.swing.JTextField txtNombreCliente;
     // End of variables declaration//GEN-END:variables
 }

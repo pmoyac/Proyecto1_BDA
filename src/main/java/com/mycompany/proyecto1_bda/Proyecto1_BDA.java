@@ -17,53 +17,26 @@ import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import objetos.Cuenta;
+import vista.frmPrincipal;
 
 /**
  * @author Pedro Moya, Adriana Gutiérrez
  */
 public class Proyecto1_BDA {
-
-//    public static void main(String[] args) {
-//
-//        String cadenaConexion = "jdbc:mysql://localhost:3306/banco";
-//        String user = "root";
-//        String password = "1234";
-//        
-//        try {
-//            IConexion baseDatos = new ConexionBD(cadenaConexion, user, password);
-//            Cliente cliente = new Cliente("adriana","gutierrez","robles", new Date(2003,04,04), "1234","calle","178","f");
-//            ICliente daoCliente = new ClienteDAO(baseDatos);
-//            Cliente agregado = daoCliente.registrarCliente(cliente);
-//            
-//            System.out.println("Cliente registrado");
-//            System.out.println(agregado.toString());
-//            
-//        } catch (PersistenciaException e) {
-//            System.out.println("Hubo un error");
-//            System.out.println(e.getStackTrace());
-//        }
-//    }   
+    
     public static void main(String[] args) throws PersistenciaException {
-        System.out.println("Hello !");
-        System.out.println("este es jovani");
-        
-        
-
-//        String cadenaConexion = "jdbc:mysql://localhost:3306/banco";
-//        String user = "root";
-//        String password = "moya";
-
-//        IConexion baseDatos = new ConexionBD(cadenaConexion, user, password);
-
-        ICliente cl = new ClienteDAO();
-        ICuenta cu = new CuentaDAO();
-//        Cuenta c1 = new Cuenta(3000, new Date(120, 6, 12));
-//        cu.agregarCuenta(c1);
-//        Cliente cliente = new Cliente("contrasena", "Antonio", "Castro", "Moya", new Date(120, 6, 12), "sgdfg", "asdfas", "sdfasdf");
-//            cl.registrarCliente(cliente);
-//        cu.transferir(1, 2, 100);
-
-        System.out.println(cu.buscarCuentas(7));
+// 
+//        ICliente cl = new ClienteDAO();
+//        ICuenta cu = new CuentaDAO();
+////        Cuenta c1 = new Cuenta(3000, new Date(120, 6, 12));
+////        cu.agregarCuenta(c1);
+////        Cliente cliente = new Cliente("contrasena", "Antonio", "Castro", "Moya", new Date(120, 6, 12), "sgdfg", "asdfas", "sdfasdf");
+////            cl.registrarCliente(cliente);
+////        cu.transferir(1, 2, 100);
+//
+//        System.out.println(cu.buscarCuentas(7));
+        frmPrincipal p = new frmPrincipal();
+        p.setVisible(true);
     }
 
 }

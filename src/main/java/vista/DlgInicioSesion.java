@@ -1,10 +1,21 @@
 package vista;
 
+import datos.ClienteDAO;
+import excepciones.PersistenciaException;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import objetos.Cliente;
+
 /**
  *
  * @author adria
  */
 public class DlgInicioSesion extends javax.swing.JDialog {
+
+    ClienteDAO clienteDAO;
+    frmPrincipal p = new frmPrincipal();
 
     /**
      * Creates new form DlgInicioSesion
@@ -35,7 +46,7 @@ public class DlgInicioSesion extends javax.swing.JDialog {
         jLabel3 = new javax.swing.JLabel();
         txtNoCliente = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
-        txtContrasenia = new javax.swing.JTextField();
+        PasswordFieldContrasenia = new javax.swing.JPasswordField();
         btnAceptar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
 
@@ -64,12 +75,17 @@ public class DlgInicioSesion extends javax.swing.JDialog {
         jLabel3.setText("No. de cliente:");
 
         txtNoCliente.setFont(new java.awt.Font("Berlin Sans FB", 0, 24)); // NOI18N
+        txtNoCliente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtNoClienteActionPerformed(evt);
+            }
+        });
 
         jLabel4.setBackground(new java.awt.Color(0, 0, 0));
         jLabel4.setFont(new java.awt.Font("Berlin Sans FB", 0, 24)); // NOI18N
         jLabel4.setText("Contraseña:");
 
-        txtContrasenia.setFont(new java.awt.Font("Berlin Sans FB", 0, 24)); // NOI18N
+        PasswordFieldContrasenia.setFont(new java.awt.Font("Berlin Sans FB", 0, 24)); // NOI18N
 
         javax.swing.GroupLayout panelRound1Layout = new javax.swing.GroupLayout(panelRound1);
         panelRound1.setLayout(panelRound1Layout);
@@ -80,8 +96,8 @@ public class DlgInicioSesion extends javax.swing.JDialog {
                 .addGroup(panelRound1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel4)
                     .addComponent(jLabel3)
-                    .addComponent(txtNoCliente)
-                    .addComponent(txtContrasenia, javax.swing.GroupLayout.DEFAULT_SIZE, 354, Short.MAX_VALUE))
+                    .addComponent(txtNoCliente, javax.swing.GroupLayout.DEFAULT_SIZE, 354, Short.MAX_VALUE)
+                    .addComponent(PasswordFieldContrasenia))
                 .addContainerGap(50, Short.MAX_VALUE))
         );
         panelRound1Layout.setVerticalGroup(
@@ -94,8 +110,8 @@ public class DlgInicioSesion extends javax.swing.JDialog {
                 .addGap(27, 27, 27)
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtContrasenia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(52, Short.MAX_VALUE))
+                .addComponent(PasswordFieldContrasenia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(35, Short.MAX_VALUE))
         );
 
         btnAceptar.setFont(new java.awt.Font("Berlin Sans FB", 0, 24)); // NOI18N
@@ -130,9 +146,9 @@ public class DlgInicioSesion extends javax.swing.JDialog {
                         .addGap(15, 15, 15)
                         .addComponent(jLabel1))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(159, 159, 159)
+                        .addGap(156, 156, 156)
                         .addComponent(btnAceptar, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(110, 110, 110)
+                        .addGap(111, 111, 111)
                         .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(123, Short.MAX_VALUE))
         );
@@ -147,9 +163,9 @@ public class DlgInicioSesion extends javax.swing.JDialog {
                 .addComponent(panelRound1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnAceptar, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(26, Short.MAX_VALUE))
+                    .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnAceptar, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(28, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -168,20 +184,48 @@ public class DlgInicioSesion extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
-        // TODO add your handling code here:
+        p.setVisible(true);
+        dispose();
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
-        // mientras queda el login
-        int idc = Integer.parseInt(this.txtNoCliente.getText());
-        frmInicio inicio = new frmInicio(idc);
-        inicio.setVisible(true);
-        this.setVisible(false);
+        try {
+            int idCliente = Integer.parseInt(txtNoCliente.getText());
+            String contrasenia = new String(PasswordFieldContrasenia.getPassword());
+
+            ClienteDAO clienteDAO = new ClienteDAO(); 
+            Cliente cliente = clienteDAO.iniciarSesion(idCliente, contrasenia);
+
+            if (cliente != null) {
+                // Inicio de sesión exitoso
+                JOptionPane.showMessageDialog(this, "Se ha iniciado sesión correctamente", "Inicio de sesión", JOptionPane.INFORMATION_MESSAGE);
+
+                String nombre = cliente.getNombre();
+                String apellidoPaterno = cliente.getApellido_paterno();
+                
+                int idc = Integer.parseInt(this.txtNoCliente.getText());
+
+                frmInicio inicio = new frmInicio(idc, nombre, apellidoPaterno);               
+                inicio.setVisible(true);
+                dispose();
+            } else {
+                JOptionPane.showMessageDialog(this, "Usuario o contraseña incorrectos", "Inicio de sesión", JOptionPane.ERROR_MESSAGE);
+            }
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Número de cliente no válido", "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (PersistenciaException ex) {
+            JOptionPane.showMessageDialog(this, "Error al iniciar sesión: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_btnAceptarActionPerformed
+
+    private void txtNoClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNoClienteActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtNoClienteActionPerformed
 
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPasswordField PasswordFieldContrasenia;
     private javax.swing.JButton btnAceptar;
     private javax.swing.JButton btnCancelar;
     private javax.swing.JLabel jLabel1;
@@ -190,7 +234,6 @@ public class DlgInicioSesion extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
     private vista.PanelRound panelRound1;
-    private javax.swing.JTextField txtContrasenia;
     private javax.swing.JTextField txtNoCliente;
     // End of variables declaration//GEN-END:variables
 }
