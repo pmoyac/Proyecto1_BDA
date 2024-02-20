@@ -9,12 +9,13 @@ package vista;
  * @author adria
  */
 public class frmHistorial extends javax.swing.JFrame {
-
+    int idc;
     /**
      * Creates new form frmHistorial
      */
-    public frmHistorial() {
+    public frmHistorial(int id) {
         initComponents();
+        idc = id;
     }
 
     /**
@@ -95,7 +96,7 @@ public class frmHistorial extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
-        frmInicio inicio = new frmInicio();
+        frmInicio inicio = new frmInicio(idc);
         inicio.setVisible(true);
         dispose();
     }//GEN-LAST:event_btnRegresarActionPerformed

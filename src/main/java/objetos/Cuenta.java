@@ -94,7 +94,7 @@ public class Cuenta {
 
     @Override
     public String toString() {
-        return "Cuenta{" + numero_cuenta + '}';
+        return "Cuenta:" + numero_cuenta+" Saldo:"+saldo ;
     }
 
     

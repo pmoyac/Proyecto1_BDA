@@ -16,7 +16,7 @@ import objetos.Cliente;
  * @author Pedro Moya, Adriana Gutiérrez
  */
 public class DlgRegistrarCliente extends javax.swing.JDialog {
-    
+    int idc;
      ClienteDAO cliente;
 
     /**
@@ -28,8 +28,9 @@ public class DlgRegistrarCliente extends javax.swing.JDialog {
         this.cliente = new ClienteDAO();
     }
 
-    DlgRegistrarCliente() {
+    DlgRegistrarCliente(int id) {
         initComponents();
+        idc =id;
         this.cliente = new ClienteDAO();
     }
 
@@ -383,7 +384,7 @@ public class DlgRegistrarCliente extends javax.swing.JDialog {
                         JOptionPane.showMessageDialog(this, "No. de cliente: " + idClienteGenerado,
                                 "Cliente registrado exitosamente", JOptionPane.INFORMATION_MESSAGE);
 
-                        frmInicio inicio = new frmInicio();
+                        frmInicio inicio = new frmInicio(idc);
                         inicio.setVisible(true);
                         dispose();
                     }

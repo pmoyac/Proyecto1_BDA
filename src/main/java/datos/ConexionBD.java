@@ -29,7 +29,7 @@ public class ConexionBD implements IConexion{
     
     private final String CADENA_CONEXION = "jdbc:mysql://localhost/banco";
     private final String USUARIO = "root";
-    private final String PASSWORD = "1234";
+    private final String PASSWORD = "moya";
 
     
     public Connection crearConexion() throws SQLException{

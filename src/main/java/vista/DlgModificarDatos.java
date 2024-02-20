@@ -326,13 +326,15 @@ public class DlgModificarDatos extends javax.swing.JDialog {
         try {
             // TODO add your handling code here:
             this.actualizarCliente();
+            JOptionPane.showMessageDialog(this, "Cliente modificado",
+                    "Información", JOptionPane.INFORMATION_MESSAGE);
         } catch (PersistenciaException ex) {
             Logger.getLogger(DlgModificarDatos.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btnAceptarActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
-        frmInicio inicio = new frmInicio();
+        frmInicio inicio = new frmInicio(idc);
         inicio.setVisible(true);
         dispose();
     }//GEN-LAST:event_btnCancelarActionPerformed

@@ -21,8 +21,9 @@ public class frmInicio extends javax.swing.JFrame {
         txtNombreCliente.setText(nombre+" "+apellidoPaterno);
     }
 
-    public frmInicio() {
+    public frmInicio(int id) {
         initComponents();
+        idc = id;
     }
     
     
@@ -209,6 +210,15 @@ public class frmInicio extends javax.swing.JFrame {
 
     private void btnTransferirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTransferirActionPerformed
         // TODO add your handling code here:
+        DlgTransferir transferir;
+        try{
+        transferir = new DlgTransferir(this.idc);
+        transferir.setVisible(true);
+        }catch (PersistenciaException ex) {
+            Logger.getLogger(frmInicio.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        this.setVisible(false);
     }//GEN-LAST:event_btnTransferirActionPerformed
 
     private void txtNombreClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNombreClienteActionPerformed
@@ -225,7 +235,7 @@ public class frmInicio extends javax.swing.JFrame {
     }//GEN-LAST:event_btnRegresarActionPerformed
 
     private void btnHistorialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHistorialActionPerformed
-        frmHistorial historial = new frmHistorial();
+        frmHistorial historial = new frmHistorial(idc);
         historial.setVisible(true);  
         dispose();
     }//GEN-LAST:event_btnHistorialActionPerformed
