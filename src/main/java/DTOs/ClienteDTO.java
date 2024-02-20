@@ -2,7 +2,7 @@ package DTOs;
 
 /**
  *
- * @author adria
+ * @author Pedro Moya, Adriana Gutiérrez
  */
 public class ClienteDTO {
     

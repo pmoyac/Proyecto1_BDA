@@ -71,41 +71,54 @@ public class ClienteDAO implements ICliente{
     }
 
     @Override
-    public Cliente buscarCliente(int id) throws PersistenciaException {
-        String searchClient = "SELECT * FROM clientes"
-                + " WHERE id=" + id;
+    public Cliente buscarCliente(String usuario, String contrasena) throws PersistenciaException {
+        String searchClient = """
+                              SELECT * FROM clientes WHERE usuario = ? AND contrasenia = ?;
+                              """;
         
-        System.out.println(searchClient);
-
-        Cliente resultado = null;
-        
-        try {
-            Connection c = conexion.crearConexion();
-            PreparedStatement search = c.prepareStatement(searchClient);
-           
+        try (
+            Connection c = this.conexion.crearConexion();
+            PreparedStatement search = c.prepareStatement(searchClient, Statement.RETURN_GENERATED_KEYS);
+            )
+        {
             ResultSet res = search.executeQuery();
             
-            if(res.next()){
-                String nombre = res.getString("nombre");
-                String apellido_paterno = res.getString("apellido_paterno");
-                String apellido_materno = res.getString("apellido_materno");
-                String usuario = res.getString("usuario");
-                String contrasena = res.getString("contrasenia");
-                String fecha_nacimiento = res.getString("fecha_nacimiento");
-                String calle = res.getString("calle");
-                String numeroExt = res.getString("num");
-                String colonia = res.getString("colonia");
-                
-                resultado = new Cliente(nombre, apellido_paterno, apellido_materno, usuario,
-                        contrasena, fecha_nacimiento, calle, numeroExt, colonia);
-         //       return resultado;
-            }
+               
+            
             
         } catch (SQLException e) {
             logger.log(Level.SEVERE, e.getMessage());
             throw new PersistenciaException("No fue posible buscar al cliente" + e.getMessage());
         }
-        return resultado;
+        
+//            try {
+//            Connection c = conexion.crearConexion();
+//            PreparedStatement search = c.prepareStatement(searchClient);
+//           
+//            ResultSet res = search.executeQuery();
+//                {     
+//            if(res.next()){
+//                String nombre = res.getString("nombre");
+//                String apellido_paterno = res.getString("apellido_paterno");
+//                String apellido_materno = res.getString("apellido_materno");
+//                String usuario = res.getString("usuario");
+//                String contrasena = res.getString("contrasenia");
+//                String fecha_nacimiento = res.getString("fecha_nacimiento");
+//                String calle = res.getString("calle");
+//                String numeroExt = res.getString("num");
+//                String colonia = res.getString("colonia");
+//                
+//                resultado = new Cliente(nombre, apellido_paterno, apellido_materno, usuario,
+//                        contrasena, fecha_nacimiento, calle, numeroExt, colonia);
+//                return resultado;
+//            }
+//            
+//        } catch (SQLException e) {
+//            logger.log(Level.SEVERE, e.getMessage());
+//            throw new PersistenciaException("No fue posible buscar al cliente" + e.getMessage());
+//        }
+//        return resultado;
+        return null;
 
     }
     

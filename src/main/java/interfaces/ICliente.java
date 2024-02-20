@@ -13,7 +13,7 @@ public interface ICliente {
         
     Cliente actualizarCliente(ClienteDTO clienteDTO) throws PersistenciaException;
     
-    Cliente buscarCliente(int id) throws PersistenciaException;
+    Cliente buscarCliente(String usuario, String contrasena) throws PersistenciaException;
     
     
 }

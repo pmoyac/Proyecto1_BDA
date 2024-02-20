@@ -2,7 +2,7 @@ package DTOs;
 
 /**
  *
- * @author adria
+ * @author Pedro Moya, Adriana Gutiérrez
  */
 public class CuentaDTO {
     
@@ -63,15 +63,15 @@ public class CuentaDTO {
         this.idCliente = idCliente;
     }
     
-//    public boolean esValido(){
-//        if(this.fechaApertura == null || this.fechaApertura.isBlank()
-//            || this.numeroCuenta == null || this.numeroCuenta.isBlank()
-//            || this.estadoCuenta == null || this.estadoCuenta.isBlank()
-//            || this.idCliente == null || this.idCliente
-//            )
-//        {
-//            
-//        }
-//    }
+    public boolean esValido(){
+        if(this.fechaApertura == null || this.fechaApertura.isBlank()
+            || this.numeroCuenta == null || this.numeroCuenta.isBlank()
+            || this.estadoCuenta == null || this.estadoCuenta.isBlank()
+            )
+        {
+            return false;
+        }
+        return true;
+    }
     
 }
