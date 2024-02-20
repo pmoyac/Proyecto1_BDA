@@ -1,10 +1,22 @@
 package vista;
 
+import javax.swing.JTextField;
+import javax.swing.JOptionPane;
+import datos.ClienteDAO;
+import excepciones.PersistenciaException;
+import java.sql.Date;
+//import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import objetos.Cliente;
+
 /**
  *
  * @author Pedro Moya, Adriana Gutiérrez
  */
 public class DlgRegistrarCliente extends javax.swing.JDialog {
+    
+     ClienteDAO cliente;
 
     /**
      * Creates new form DlgRegistrarCliente
@@ -12,7 +24,67 @@ public class DlgRegistrarCliente extends javax.swing.JDialog {
     public DlgRegistrarCliente(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        this.cliente = new ClienteDAO();
     }
+
+    DlgRegistrarCliente() {
+        initComponents();
+        this.cliente = new ClienteDAO();
+    }
+
+    private boolean validartxt(JTextField jTextField, String errorMessage) {
+        if (jTextField.getText().length() == 0) {
+            JOptionPane.showMessageDialog(null, errorMessage);
+            return false;
+        }
+        return true;
+    }
+
+    private boolean validarCliente() {
+        if (!validartxt(this.txtNombre, "Debe completar el campo nombre")) {
+        return false;
+        }
+        if (!validartxt(this.txtApellidoP, "Debe completar el campo apellido paterno")) {
+        return false;
+        }
+        if (!validartxt(this.txtApellidoM, "Debe completar el campo apellido materno")) {
+        return false;
+        }
+        if (!validartxt(this.txtCalle, "Debe completar el campo calle")) {
+        return false;
+        }
+        if (!validartxt(this.txtColonia, "Debe completar el campo colonia")) {
+        return false;
+        }
+        if (!validartxt(this.txtNum, "Debe completar el campo num")) {
+        return false;
+        }
+        
+        return true;
+    }
+    
+    public void reistrarCliente() throws PersistenciaException{
+//        Date javadate = new Date();
+
+
+        if (validarCliente()) {
+            java.util.Date javaDate = new java.util.Date();
+        javaDate= this.jDateFecha.getDate();
+        
+        
+        Date fechasql = new Date(javaDate.getTime());
+        
+        Cliente clienteNuevo = new Cliente(this.txtContrasenia.getText(), this.txtNombre.getText(), this.txtApellidoP.getText(), 
+                this.txtApellidoM.getText(), fechasql, this.txtCalle.getText(), 
+                this.txtNum.getText(), this.txtColonia.getText());
+        
+        
+        cliente.registrarCliente(clienteNuevo);
+        }
+        
+    }
+    
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -31,7 +103,6 @@ public class DlgRegistrarCliente extends javax.swing.JDialog {
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
-        txtFechaNac = new javax.swing.JTextField();
         txtApellidoP = new javax.swing.JTextField();
         txtNombre = new javax.swing.JTextField();
         txtApellidoM = new javax.swing.JTextField();
@@ -47,6 +118,7 @@ public class DlgRegistrarCliente extends javax.swing.JDialog {
         btnAceptar = new javax.swing.JButton();
         btnRestaurar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
+        jDateFecha = new com.toedter.calendar.JDateChooser();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Registrar");
@@ -74,8 +146,6 @@ public class DlgRegistrarCliente extends javax.swing.JDialog {
 
         jLabel8.setFont(new java.awt.Font("Berlin Sans FB", 0, 20)); // NOI18N
         jLabel8.setText("Colonia:");
-
-        txtFechaNac.setFont(new java.awt.Font("Berlin Sans FB", 0, 20)); // NOI18N
 
         txtApellidoP.setFont(new java.awt.Font("Berlin Sans FB", 0, 20)); // NOI18N
 
@@ -162,6 +232,11 @@ public class DlgRegistrarCliente extends javax.swing.JDialog {
         btnAceptar.setFont(new java.awt.Font("Berlin Sans FB", 0, 24)); // NOI18N
         btnAceptar.setText("Aceptar");
         btnAceptar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnAceptar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAceptarActionPerformed(evt);
+            }
+        });
 
         btnRestaurar.setFont(new java.awt.Font("Berlin Sans FB", 0, 24)); // NOI18N
         btnRestaurar.setText("Restaurar");
@@ -186,8 +261,8 @@ public class DlgRegistrarCliente extends javax.swing.JDialog {
                     .addComponent(jLabel9)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel5)
-                        .addGap(18, 18, 18)
-                        .addComponent(txtFechaNac, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jDateFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel7)
@@ -195,9 +270,11 @@ public class DlgRegistrarCliente extends javax.swing.JDialog {
                             .addComponent(jLabel6))
                         .addGap(22, 22, 22)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtCalle, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txtNum, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtColonia, javax.swing.GroupLayout.PREFERRED_SIZE, 331, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(txtColonia, javax.swing.GroupLayout.PREFERRED_SIZE, 331, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(txtCalle, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(44, 44, 44))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(194, 194, 194)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -206,13 +283,13 @@ public class DlgRegistrarCliente extends javax.swing.JDialog {
                                 .addGap(18, 18, 18)
                                 .addComponent(btnAceptar, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(txtApellidoM, javax.swing.GroupLayout.PREFERRED_SIZE, 321, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(txtApellidoP, javax.swing.GroupLayout.PREFERRED_SIZE, 321, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
-                                .addComponent(btnRestaurar))))
+                                .addComponent(btnRestaurar))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(txtApellidoM, javax.swing.GroupLayout.PREFERRED_SIZE, 321, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addComponent(jLabel2)
                     .addComponent(jLabel3)
                     .addComponent(jLabel4)
@@ -223,25 +300,26 @@ public class DlgRegistrarCliente extends javax.swing.JDialog {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnAceptar))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel2)
+                            .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnAceptar))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel3)
+                            .addComponent(txtApellidoP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnRestaurar))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txtApellidoM, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel4)
+                            .addComponent(btnCancelar))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel5))
+                    .addComponent(jDateFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(txtApellidoP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnRestaurar))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtApellidoM, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel4)
-                    .addComponent(btnCancelar))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtFechaNac, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel5))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel9)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -257,7 +335,7 @@ public class DlgRegistrarCliente extends javax.swing.JDialog {
                     .addComponent(txtColonia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(panelRound1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(21, Short.MAX_VALUE))
+                .addContainerGap(33, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -290,15 +368,24 @@ public class DlgRegistrarCliente extends javax.swing.JDialog {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtConfirmarContraseniaActionPerformed
 
+    private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
+         try {
+             // TODO add your handling code here:
+             this.reistrarCliente();
+         } catch (PersistenciaException ex) {
+             Logger.getLogger(DlgRegistrarCliente.class.getName()).log(Level.SEVERE, null, ex);
+         }
+    }//GEN-LAST:event_btnAceptarActionPerformed
+
     /**
      * @param args the command line arguments
      */
-    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAceptar;
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnRestaurar;
+    private com.toedter.calendar.JDateChooser jDateFecha;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
@@ -317,7 +404,6 @@ public class DlgRegistrarCliente extends javax.swing.JDialog {
     private javax.swing.JTextField txtColonia;
     private javax.swing.JTextField txtConfirmarContrasenia;
     private javax.swing.JTextField txtContrasenia;
-    private javax.swing.JTextField txtFechaNac;
     private javax.swing.JTextField txtNombre;
     private javax.swing.JTextField txtNum;
     // End of variables declaration//GEN-END:variables

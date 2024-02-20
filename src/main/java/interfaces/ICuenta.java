@@ -2,6 +2,7 @@
 package interfaces;
 
 import excepciones.PersistenciaException;
+import java.util.List;
 import objetos.Cuenta;
 
 /**
@@ -16,5 +17,7 @@ public interface ICuenta {
     
     Cuenta transferir(int nc1, int nc2, float monto) throws PersistenciaException;
     
-    Cuenta generarRetiro(Cuenta c) throws PersistenciaException;
+    Cuenta generarRetiro(int nc, float monto) throws PersistenciaException;
+    
+    List<Cuenta> buscarCuentas(int idCliente) throws PersistenciaException;
 }

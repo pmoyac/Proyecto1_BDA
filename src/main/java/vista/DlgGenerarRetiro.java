@@ -1,11 +1,20 @@
 package vista;
 
+import datos.CuentaDAO;
+import excepciones.PersistenciaException;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author adria
  */
 public class DlgGenerarRetiro extends javax.swing.JDialog {
-
+    CuentaDAO cuenta;
+    int idc;
     /**
      * Creates new form DlgGenerarRetiro
      */
@@ -14,6 +23,27 @@ public class DlgGenerarRetiro extends javax.swing.JDialog {
         initComponents();
     }
 
+    DlgGenerarRetiro(int idc) throws PersistenciaException{
+        initComponents();
+        this.idc=idc;
+        llenarCombo();
+    }
+
+    public void llenarCombo(){
+        cuenta = new CuentaDAO();
+        ArrayList lista = new ArrayList<>();
+        try {
+             lista = (ArrayList) cuenta.buscarCuentas(idc);
+        } catch (PersistenciaException ex) {
+            Logger.getLogger(DlgGenerarRetiro.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        for (int i = 0; i < lista.size(); i++) {
+            this.cboCuentas.addItem(lista.get(i).toString());
+        }
+    }
+    
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -51,7 +81,11 @@ public class DlgGenerarRetiro extends javax.swing.JDialog {
         lblNombreCliente.setText("nombrecliente");
 
         cboCuentas.setFont(new java.awt.Font("Berlin Sans FB", 0, 30)); // NOI18N
-        cboCuentas.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cboCuentas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cboCuentasActionPerformed(evt);
+            }
+        });
 
         jLabel2.setFont(new java.awt.Font("Berlin Sans FB", 0, 30)); // NOI18N
         jLabel2.setText("Cuenta origen:");
@@ -193,6 +227,10 @@ public class DlgGenerarRetiro extends javax.swing.JDialog {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void cboCuentasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboCuentasActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cboCuentasActionPerformed
 
     
 

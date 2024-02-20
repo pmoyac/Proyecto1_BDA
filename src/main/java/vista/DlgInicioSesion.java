@@ -13,6 +13,11 @@ public class DlgInicioSesion extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
     }
+    
+    public DlgInicioSesion() {
+        initComponents();
+        
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -96,6 +101,11 @@ public class DlgInicioSesion extends javax.swing.JDialog {
         btnAceptar.setFont(new java.awt.Font("Berlin Sans FB", 0, 24)); // NOI18N
         btnAceptar.setText("Aceptar");
         btnAceptar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnAceptar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAceptarActionPerformed(evt);
+            }
+        });
 
         btnCancelar.setFont(new java.awt.Font("Berlin Sans FB", 0, 24)); // NOI18N
         btnCancelar.setText("Cancelar");
@@ -160,6 +170,14 @@ public class DlgInicioSesion extends javax.swing.JDialog {
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnCancelarActionPerformed
+
+    private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
+        // mientras queda el login
+        int idc = Integer.parseInt(this.txtNoCliente.getText());
+        frmInicio inicio = new frmInicio(idc);
+        inicio.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_btnAceptarActionPerformed
 
     
 

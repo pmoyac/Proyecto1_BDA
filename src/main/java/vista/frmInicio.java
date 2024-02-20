@@ -1,18 +1,24 @@
 package vista;
 
+import excepciones.PersistenciaException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author Pedro Moya, Adriana Gutiérrez
  */
 public class frmInicio extends javax.swing.JFrame {
-
+    int idc;
     /**
      * Creates new form frmInicio
+     * @param id
      */
-    public frmInicio() {
+    public frmInicio(int id) {
         initComponents();
+        idc = id;
     }
-
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -53,6 +59,11 @@ public class frmInicio extends javax.swing.JFrame {
 
         btnGenerarRetiro.setFont(new java.awt.Font("Berlin Sans FB", 0, 30)); // NOI18N
         btnGenerarRetiro.setText("Generar retiro");
+        btnGenerarRetiro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGenerarRetiroActionPerformed(evt);
+            }
+        });
 
         btnTransferir.setFont(new java.awt.Font("Berlin Sans FB", 0, 30)); // NOI18N
         btnTransferir.setText("Transferir");
@@ -130,8 +141,30 @@ public class frmInicio extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
-        // TODO add your handling code here:
+       DlgModificarDatos modificar;
+        try {
+            modificar = new DlgModificarDatos(this.idc); 
+            modificar.setVisible(true);
+        } catch (PersistenciaException ex) {
+            Logger.getLogger(frmInicio.class.getName()).log(Level.SEVERE, null, ex);
+        }
+      
+       
+       this.setVisible(false);
     }//GEN-LAST:event_btnActualizarActionPerformed
+
+    private void btnGenerarRetiroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerarRetiroActionPerformed
+        DlgGenerarRetiro genretiro;
+        try {
+            genretiro = new DlgGenerarRetiro(this.idc); 
+            genretiro.setVisible(true);
+        } catch (PersistenciaException ex) {
+            Logger.getLogger(frmInicio.class.getName()).log(Level.SEVERE, null, ex);
+        }
+      
+       
+       this.setVisible(false);
+    }//GEN-LAST:event_btnGenerarRetiroActionPerformed
 
     /**
      * @param args the command line arguments

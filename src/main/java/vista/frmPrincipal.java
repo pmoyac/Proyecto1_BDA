@@ -154,6 +154,11 @@ public class frmPrincipal extends javax.swing.JFrame {
     private void btnIniciarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIniciarSesionActionPerformed
         if (cliente == null) {
            // cliente = control.iniciarSesion(this);
+           //Mientra queda el login
+           DlgInicioSesion is = new DlgInicioSesion();
+           is.setVisible(true);
+           
+           this.setVisible(false);
         } else {
             JOptionPane.showMessageDialog(rootPane, "Ya se ha iniciado sesión",
                     "Warning", JOptionPane.WARNING_MESSAGE);
@@ -162,7 +167,10 @@ public class frmPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_btnIniciarSesionActionPerformed
 
     private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
+        DlgRegistrarCliente registrarCliente = new DlgRegistrarCliente();
+        registrarCliente.setVisible(true);
         
+        this.setVisible(false);
     }//GEN-LAST:event_btnRegistrarActionPerformed
 
     private void btnRetiroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRetiroActionPerformed

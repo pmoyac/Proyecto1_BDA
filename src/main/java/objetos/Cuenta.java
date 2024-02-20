@@ -15,6 +15,14 @@ public class Cuenta {
     public Cuenta() {
     }
 
+    public Cuenta(int numero_cuenta, float saldo, Date fecha_apertura, int id_cliente) {
+        this.numero_cuenta = numero_cuenta;
+        this.saldo = saldo;
+        this.fecha_apertura = fecha_apertura;
+        this.id_cliente = id_cliente;
+    }
+
+    
     public Cuenta(float saldo, Date fecha_apertura) {
         this.saldo = saldo;
         this.fecha_apertura = fecha_apertura;
@@ -86,8 +94,10 @@ public class Cuenta {
 
     @Override
     public String toString() {
-        return "Cuenta{" + "numero_cuenta=" + numero_cuenta + ", saldo=" + saldo + ", fecha_apertura=" + fecha_apertura + '}';
+        return "Cuenta{" + numero_cuenta + '}';
     }
+
+    
     
     
 }

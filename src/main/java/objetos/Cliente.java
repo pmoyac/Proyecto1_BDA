@@ -18,6 +18,35 @@ public class Cliente {
     public Cliente() {
     }
 
+    public Cliente(int id, String nombre, String apellido_paterno, String apellido_materno, Date fecha_nacimiento, String calle, String num, String colonia) {
+        this.id = id;
+        this.nombre = nombre;
+        this.apellido_paterno = apellido_paterno;
+        this.apellido_materno = apellido_materno;
+        this.fecha_nacimiento = fecha_nacimiento;
+        this.calle = calle;
+        this.num = num;
+        this.colonia = colonia;
+    }
+
+    
+
+    
+    
+    public Cliente(int id, String contrasenia, String nombre, String apellido_paterno, String apellido_materno, Date fecha_nacimiento, String calle, String num, String colonia) {
+        this.id = id;
+        this.contrasenia = contrasenia;
+        this.nombre = nombre;
+        this.apellido_paterno = apellido_paterno;
+        this.apellido_materno = apellido_materno;
+        this.fecha_nacimiento = fecha_nacimiento;
+        this.calle = calle;
+        this.num = num;
+        this.colonia = colonia;
+    }
+
+    
+    
     public Cliente(String contrasenia, String nombre, String apellido_paterno, String apellido_materno, Date fecha_nacimiento, String calle, String num, String colonia) {
         this.contrasenia = contrasenia;
         this.nombre = nombre;
@@ -149,10 +178,7 @@ public class Cliente {
         this.colonia = colonia;
     }
 
-    @Override
-    public String toString() {
-        return "Cliente{" + "id=" + id + ", nombre=" + nombre + ", apellido_paterno=" + apellido_paterno + ", apellido_materno=" + apellido_materno + ", contrasenia=" + contrasenia + ", edad=" + edad + ", fecha_nacimiento=" + fecha_nacimiento + ", calle=" + calle + ", num=" + num + ", colonia=" + colonia + '}';
-    }
+    
 
     @Override
     public int hashCode() {
@@ -175,5 +201,11 @@ public class Cliente {
         final Cliente other = (Cliente) obj;
         return this.id == other.id;
     }
+
+    @Override
+    public String toString() {
+        return "Cliente{" + "id=" + id + ", contrasenia=" + contrasenia + ", nombre=" + nombre + ", apellido_paterno=" + apellido_paterno + ", apellido_materno=" + apellido_materno + ", fecha_nacimiento=" + fecha_nacimiento + ", calle=" + calle + ", num=" + num + ", colonia=" + colonia + '}';
+    }
+    
     
 }
