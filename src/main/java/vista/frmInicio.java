@@ -18,6 +18,10 @@ public class frmInicio extends javax.swing.JFrame {
         initComponents();
         idc = id;
     }
+
+    frmInicio() {
+        initComponents();
+    }
     
     /**
      * This method is called from within the constructor to initialize the form.
@@ -67,6 +71,11 @@ public class frmInicio extends javax.swing.JFrame {
 
         btnTransferir.setFont(new java.awt.Font("Berlin Sans FB", 0, 30)); // NOI18N
         btnTransferir.setText("Transferir");
+        btnTransferir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTransferirActionPerformed(evt);
+            }
+        });
 
         btnActualizar.setFont(new java.awt.Font("Berlin Sans FB", 0, 24)); // NOI18N
         btnActualizar.setText("Modificar datos");
@@ -165,6 +174,18 @@ public class frmInicio extends javax.swing.JFrame {
        
        this.setVisible(false);
     }//GEN-LAST:event_btnGenerarRetiroActionPerformed
+
+    private void btnTransferirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTransferirActionPerformed
+        DlgTransferir transferir;
+        try{
+        transferir = new DlgTransferir(this.idc);
+        transferir.setVisible(true);
+        }catch (PersistenciaException ex) {
+            Logger.getLogger(frmInicio.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        this.setVisible(false);
+    }//GEN-LAST:event_btnTransferirActionPerformed
 
     /**
      * @param args the command line arguments

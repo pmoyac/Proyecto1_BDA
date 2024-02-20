@@ -1,17 +1,63 @@
 package vista;
 
+import datos.RetiroSinCuentaDAO;
+import javax.swing.JOptionPane;
+import objetos.RetiroSinCuenta;
+
 /**
  *
  * @author Pedro Moya, Adriana Gutiérrez
  */
 public class DlgRetiroSinCuenta extends javax.swing.JDialog {
 
+    RetiroSinCuentaDAO retiroSinCuentaDAO = new RetiroSinCuentaDAO();
     /**
      * Creates new form DlgRetiroSinCuenta
      */
     public DlgRetiroSinCuenta(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+    }
+
+    public DlgRetiroSinCuenta() {
+        initComponents();
+    }
+    
+    public boolean retirar(){
+        
+        String folio = txtFolio.getText();
+        int contraseña = Integer.parseInt(this.txtContrasenia.getText());
+        RetiroSinCuenta retiro = new RetiroSinCuenta(folio,contraseña);
+        if (retiroSinCuentaDAO.PorFolioContra(retiro)==null) {
+             JOptionPane.showMessageDialog(this, "Retiro Invalido",
+                    "Información", JOptionPane.INFORMATION_MESSAGE);
+             return false;
+        }else{
+            if (retiroSinCuentaDAO.PorFolioContra(retiro).getEstado().equalsIgnoreCase("COBRADO")) {
+                JOptionPane.showMessageDialog(this, "Este Retiro Ya fue Cobrado",
+                    "Información", JOptionPane.INFORMATION_MESSAGE);
+                return false;
+            }else{
+                retiroSinCuentaDAO.ProcedimientoRetirar(retiro);             
+                if (retiroSinCuentaDAO.PorFolioContra(retiro).getEstado().equalsIgnoreCase("CADUCADO")) {
+                JOptionPane.showMessageDialog(this, "Este Retiro esta Caducado",
+                    "Información", JOptionPane.INFORMATION_MESSAGE);
+                return false;
+                }
+                
+                if (retiroSinCuentaDAO.PorFolioContra(retiro).getEstado().equalsIgnoreCase("INSUFICIENTE")) {
+                JOptionPane.showMessageDialog(this, "La Cuenta No Tiene Suficiente Dinero",
+                    "Información", JOptionPane.INFORMATION_MESSAGE);
+                return false;
+                }
+                if (retiroSinCuentaDAO.PorFolioContra(retiro).getEstado().equalsIgnoreCase("COBRADO")) {
+                JOptionPane.showMessageDialog(this, "Retiro Exitoso",
+                    "Información", JOptionPane.INFORMATION_MESSAGE);
+                return true;
+                }
+            }
+        }
+        return false;
     }
 
     /**
@@ -96,6 +142,11 @@ public class DlgRetiroSinCuenta extends javax.swing.JDialog {
         btnAceptar.setFont(new java.awt.Font("Berlin Sans FB", 0, 30)); // NOI18N
         btnAceptar.setText("Aceptar");
         btnAceptar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnAceptar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAceptarActionPerformed(evt);
+            }
+        });
 
         btnCancelar.setFont(new java.awt.Font("Berlin Sans FB", 0, 30)); // NOI18N
         btnCancelar.setText("Cancelar");
@@ -158,8 +209,16 @@ public class DlgRetiroSinCuenta extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
-        // TODO add your handling code here:
+        frmInicio inicio= new frmInicio();
+        inicio.setVisible(true);
+        
+        this.setVisible(false);
     }//GEN-LAST:event_btnCancelarActionPerformed
+
+    private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
+        retirar();
+        
+    }//GEN-LAST:event_btnAceptarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

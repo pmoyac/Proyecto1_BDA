@@ -61,9 +61,9 @@ public class Proyecto1_BDA {
 //        cu.agregarCuenta(c1);
 //        Cliente cliente = new Cliente("contrasena", "Antonio", "Castro", "Moya", new Date(120, 6, 12), "sgdfg", "asdfas", "sdfasdf");
 //            cl.registrarCliente(cliente);
-//        cu.transferir(1, 2, 100);
+//        cu.transferir(2, 1, 100);
 
-        System.out.println(cu.buscarCuentas(7));
+//        System.out.println(cu.buscarCuentas(7));
     }
 
 }

@@ -174,7 +174,9 @@ public class frmPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_btnRegistrarActionPerformed
 
     private void btnRetiroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRetiroActionPerformed
-        // TODO add your handling code here:
+        DlgRetiroSinCuenta retiro = new DlgRetiroSinCuenta();
+        retiro.setVisible(true);
+        this.setVisible(false);
     }//GEN-LAST:event_btnRetiroActionPerformed
 
     private void btnCerrarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrarSesionActionPerformed

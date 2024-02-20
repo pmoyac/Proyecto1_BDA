@@ -20,4 +20,6 @@ public interface ICuenta {
     Cuenta generarRetiro(int nc, float monto) throws PersistenciaException;
     
     List<Cuenta> buscarCuentas(int idCliente) throws PersistenciaException;
+    
+    
 }
