@@ -15,5 +15,7 @@ public interface ICliente {
     
     Cliente buscarCliente(int id) throws PersistenciaException;
     
+    Cliente iniciarSesion(int idCliente, String contrasenia) throws PersistenciaException;
+    
     
 }

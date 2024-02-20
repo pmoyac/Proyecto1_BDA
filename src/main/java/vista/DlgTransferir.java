@@ -1,10 +1,23 @@
 package vista;
 
+import datos.CuentaDAO;
+import excepciones.PersistenciaException;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import objetos.Cuenta;
+
 /**
  *
  * @author Pedro Moya, Adriana Gutiérrez
  */
 public class DlgTransferir extends javax.swing.JDialog {
+
+    CuentaDAO cuenta = new CuentaDAO();
+    int idc;
+
+    ArrayList<Cuenta> lista = new ArrayList<>();
 
     /**
      * Creates new form DlgTranferir
@@ -12,6 +25,41 @@ public class DlgTransferir extends javax.swing.JDialog {
     public DlgTransferir(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+    }
+
+    DlgTransferir(int id) throws PersistenciaException {
+        initComponents();
+        this.idc = id;
+        llenarCombo();
+    }
+
+    public void llenarCombo() {
+//        cuenta = new CuentaDAO();
+//        ArrayList<Cuenta> lista = new ArrayList<>();
+        try {
+            lista = (ArrayList) cuenta.buscarCuentas(idc);
+        } catch (PersistenciaException ex) {
+            Logger.getLogger(DlgGenerarRetiro.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        for (int i = 0; i < lista.size(); i++) {
+            this.cboCuentas.addItem(lista.get(i).toString());
+        }
+    }
+
+    public void transferir() throws PersistenciaException {
+
+        Cuenta r = lista.get(this.cboCuentas.getSelectedIndex());
+
+        int idorigen = r.getNumero_cuenta();
+        int iddestino = Integer.parseInt(this.txtCuentaDestino.getText());
+
+      
+//            idorigen = ((Cuenta) this.cboCuentas.getSelectedItem()).getNumero_cuenta();
+        float monto = Float.parseFloat(this.txtCantidad.getText());
+        cuenta.transferir(idorigen, iddestino, monto);
+
+//        int idorigen = ((Cuenta) this.cboCuentas.getSelectedItem()).getNumero_cuenta();
     }
 
     /**
@@ -25,7 +73,6 @@ public class DlgTransferir extends javax.swing.JDialog {
 
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        lblNombreCliente = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
@@ -44,9 +91,6 @@ public class DlgTransferir extends javax.swing.JDialog {
         jLabel1.setFont(new java.awt.Font("Berlin Sans FB", 0, 40)); // NOI18N
         jLabel1.setText("Banco JV");
 
-        lblNombreCliente.setFont(new java.awt.Font("Berlin Sans FB", 0, 18)); // NOI18N
-        lblNombreCliente.setText("nombrecliente");
-
         jLabel2.setFont(new java.awt.Font("Berlin Sans FB", 0, 30)); // NOI18N
         jLabel2.setText("Cuenta origen:");
 
@@ -58,12 +102,21 @@ public class DlgTransferir extends javax.swing.JDialog {
 
         btnCancelar.setFont(new java.awt.Font("Berlin Sans FB", 0, 30)); // NOI18N
         btnCancelar.setText("Cancelar");
+        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelarActionPerformed(evt);
+            }
+        });
 
         btnAceptar1.setFont(new java.awt.Font("Berlin Sans FB", 0, 30)); // NOI18N
         btnAceptar1.setText("Aceptar");
+        btnAceptar1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAceptar1ActionPerformed(evt);
+            }
+        });
 
         cboCuentas.setFont(new java.awt.Font("Berlin Sans FB", 0, 30)); // NOI18N
-        cboCuentas.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         txtCuentaDestino.setFont(new java.awt.Font("Berlin Sans FB", 0, 30)); // NOI18N
 
@@ -83,8 +136,7 @@ public class DlgTransferir extends javax.swing.JDialog {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(15, 15, 15)
                         .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(lblNombreCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(71, 71, 71)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -97,23 +149,25 @@ public class DlgTransferir extends javax.swing.JDialog {
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(49, 49, 49)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(txtCantidad)
-                                    .addComponent(txtCuentaDestino)
-                                    .addComponent(cboCuentas, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addGap(70, 70, 70))
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(txtCantidad)
+                                            .addComponent(txtCuentaDestino))
+                                        .addGap(70, 70, 70))
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(cboCuentas, javax.swing.GroupLayout.PREFERRED_SIZE, 373, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(0, 0, Short.MAX_VALUE))))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(144, 144, 144)
                                 .addComponent(btnCancelar)
-                                .addGap(0, 146, Short.MAX_VALUE)))))
+                                .addGap(0, 152, Short.MAX_VALUE)))))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblNombreCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1))
+                .addComponent(jLabel1)
                 .addGap(72, 72, 72)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel2)
@@ -152,10 +206,36 @@ public class DlgTransferir extends javax.swing.JDialog {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtCantidadActionPerformed
 
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+        frmInicio inicio= new frmInicio(idc);
+        inicio.setVisible(true);
+        
+        this.setVisible(false);
+    }//GEN-LAST:event_btnCancelarActionPerformed
+
+    private void btnAceptar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptar1ActionPerformed
+             
+        
+        Cuenta r = lista.get(this.cboCuentas.getSelectedIndex());
+        float cantidad = Float.parseFloat(this.txtCantidad.getText());
+        
+        if (r.getSaldo()>= cantidad) {
+            try {
+            transferir();
+            JOptionPane.showMessageDialog(this, "Transferencia Exitosa",
+                    "Información", JOptionPane.INFORMATION_MESSAGE);
+        } catch (PersistenciaException ex) {
+            Logger.getLogger(DlgGenerarRetiro.class.getName()).log(Level.SEVERE, null, ex);
+        }  
+        }else{
+            JOptionPane.showMessageDialog(this, "No cuenta con el monto suficiente",
+                    "Información", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }//GEN-LAST:event_btnAceptar1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
-    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAceptar1;
@@ -166,7 +246,6 @@ public class DlgTransferir extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JLabel lblNombreCliente;
     private javax.swing.JTextField txtCantidad;
     private javax.swing.JTextField txtCuentaDestino;
     // End of variables declaration//GEN-END:variables

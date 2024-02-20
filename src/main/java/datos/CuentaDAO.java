@@ -66,6 +66,8 @@ public class CuentaDAO implements ICuenta {
 
             callableStatement.executeUpdate();
             System.out.println("Transferencia Completada");
+            System.out.println(nc1);
+            System.out.println(nc2);
         } catch (SQLException e) {
             System.err.println("Error: " + e.getMessage());
             e.printStackTrace();
