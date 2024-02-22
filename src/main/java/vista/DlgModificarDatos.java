@@ -16,6 +16,8 @@ import objetos.Cliente;
 public class DlgModificarDatos extends javax.swing.JDialog {
 
     ClienteDAO cliente;
+    
+    
     int idc;
     /**
      * Creates new form DlgModificarDatos
@@ -30,7 +32,8 @@ public class DlgModificarDatos extends javax.swing.JDialog {
         idc = id;
         cliente = new ClienteDAO();
         Cliente cl = cliente.buscarCliente(idc);       
-        
+        jDateFecha.getDateEditor().getUiComponent().setEnabled(false);
+
         
         this.txtNombre.setText(cl.getNombre());
         this.txtApellidoP.setText(cl.getApellido_paterno());
@@ -40,59 +43,29 @@ public class DlgModificarDatos extends javax.swing.JDialog {
         this.txtColonia.setText(cl.getColonia());
         this.jDateFecha.setDate(cl.getFecha_nacimiento());
     }
-    
-    private boolean validartxt(JTextField jTextField, String errorMessage) {
-        if (jTextField.getText().length() == 0) {
-            JOptionPane.showMessageDialog(null, errorMessage);
-            return false;
-        }
-        return true;
-    }
 
-    private boolean validarCliente() {
-        if (!validartxt(this.txtNombre, "Debe completar el campo nombre")) {
-        return false;
-        }
-        if (!validartxt(this.txtApellidoP, "Debe completar el campo apellido paterno")) {
-        return false;
-        }
-        if (!validartxt(this.txtApellidoM, "Debe completar el campo apellido materno")) {
-        return false;
-        }
-        if (!validartxt(this.txtCalle, "Debe completar el campo calle")) {
-        return false;
-        }
-        if (!validartxt(this.txtColonia, "Debe completar el campo colonia")) {
-        return false;
-        }
-        if (!validartxt(this.txtNum, "Debe completar el campo num")) {
-        return false;
-        }
-        
-        return true;
-    }
+    private boolean validarCampos() {
+        return 
+            !txtNombre.getText().isEmpty() &&
+            !txtApellidoP.getText().isEmpty() &&
+            !txtApellidoM.getText().isEmpty() &&
+            !txtCalle.getText().isEmpty() &&
+            !txtNum.getText().isEmpty() &&
+            !txtColonia.getText().isEmpty();
+    }  
     
-    
-    
-    public void actualizarCliente() throws PersistenciaException{
-        if (validarCliente()) {
-            java.util.Date javaDate = new java.util.Date();
-        javaDate= this.jDateFecha.getDate();
-        
-        
-        Date fechasql = new Date(javaDate.getTime());
-        
-        Cliente clienteNuevo = new Cliente(this.idc, this.txtNombre.getText(), this.txtApellidoP.getText(), 
-                this.txtApellidoM.getText(), fechasql, this.txtCalle.getText(), 
-                this.txtNum.getText(), this.txtColonia.getText());
-        
-        
-        cliente.actualizarCliente(clienteNuevo);
-        }
-        
        
-        
-        
+    public void actualizarCliente() throws PersistenciaException {
+            java.util.Date javaDate = new java.util.Date();
+            javaDate = this.jDateFecha.getDate();
+
+            Date fechasql = new Date(javaDate.getTime());
+
+            Cliente clienteNuevo = new Cliente(this.idc, this.txtNombre.getText(), this.txtApellidoP.getText(),
+                    this.txtApellidoM.getText(), fechasql, this.txtCalle.getText(),
+                    this.txtNum.getText(), this.txtColonia.getText());
+
+            cliente.actualizarCliente(clienteNuevo);
     }
 
     /**
@@ -214,12 +187,13 @@ public class DlgModificarDatos extends javax.swing.JDialog {
                 .addGap(88, 88, 88)
                 .addComponent(btnAceptar, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(68, 68, 68)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jDateFecha, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnRestaurar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(68, 68, 68)
-                .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(95, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jDateFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(btnRestaurar)
+                        .addGap(68, 68, 68)
+                        .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(96, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel1Layout.createSequentialGroup()
                     .addGap(92, 92, 92)
@@ -252,9 +226,9 @@ public class DlgModificarDatos extends javax.swing.JDialog {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(14, 14, 14)
                 .addComponent(jLabel1)
-                .addGap(143, 143, 143)
-                .addComponent(jDateFecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 171, Short.MAX_VALUE)
+                .addGap(132, 132, 132)
+                .addComponent(jDateFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 172, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnAceptar)
                     .addComponent(btnRestaurar)
@@ -308,10 +282,6 @@ public class DlgModificarDatos extends javax.swing.JDialog {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void txtCalleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCalleActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtCalleActionPerformed
-
     private void btnRestaurarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRestaurarActionPerformed
         txtNombre.setText("");
         txtApellidoP.setText("");
@@ -324,10 +294,17 @@ public class DlgModificarDatos extends javax.swing.JDialog {
 
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
         try {
-            // TODO add your handling code here:
-            this.actualizarCliente();
-            JOptionPane.showMessageDialog(this, "Cliente modificado",
-                    "Información", JOptionPane.INFORMATION_MESSAGE);
+            if (validarCampos() && jDateFecha.getDate() != null) {
+                this.actualizarCliente();
+                JOptionPane.showMessageDialog(this, "Cliente modificado",
+                        "Información", JOptionPane.INFORMATION_MESSAGE);
+                frmInicio inicio = new frmInicio(idc);
+                inicio.setVisible(true);
+                dispose();
+            } else {
+                JOptionPane.showMessageDialog(this, "Asegúrese de llenar todos los campos",
+                        "Error", JOptionPane.ERROR_MESSAGE);
+            }
         } catch (PersistenciaException ex) {
             Logger.getLogger(DlgModificarDatos.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -338,6 +315,10 @@ public class DlgModificarDatos extends javax.swing.JDialog {
         inicio.setVisible(true);
         dispose();
     }//GEN-LAST:event_btnCancelarActionPerformed
+
+    private void txtCalleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCalleActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtCalleActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

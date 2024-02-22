@@ -7,16 +7,6 @@ import interfaces.ICliente;
 import interfaces.IConexion;
 import java.sql.Date;
 import objetos.Cliente;
-import datos.CuentaDAO;
-import excepciones.PersistenciaException;
-import interfaces.ICliente;
-import interfaces.IConexion;
-import interfaces.ICuenta;
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import objetos.Cuenta;
 import vista.frmPrincipal;
 
 /**

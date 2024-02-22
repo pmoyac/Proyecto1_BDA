@@ -36,9 +36,7 @@ public class DlgGenerarRetiro extends javax.swing.JDialog {
         llenarCombo();
     }
 
-    public void llenarCombo(){
-//        cuenta = new CuentaDAO();
-        
+    public void llenarCombo(){       
         try {
              lista = (ArrayList) cuentaDAO.buscarCuentas(idc);
         } catch (PersistenciaException ex) {
@@ -51,8 +49,9 @@ public class DlgGenerarRetiro extends javax.swing.JDialog {
     }
     
     public boolean crearRetiro(){
-        if (txtCantidad.getText().equals("")) {
-            JOptionPane.showMessageDialog(this, "El Campo esta Vacio", "Informacion", JOptionPane.WARNING_MESSAGE);
+        if (txtCantidad.getText().isBlank()) {
+            JOptionPane.showMessageDialog(this, "Asegúrese de llenar todos los campos", 
+                    "Error", JOptionPane.WARNING_MESSAGE);
             return false;
         }
         Cuenta r = lista.get(this.cboCuentas.getSelectedIndex());
@@ -65,19 +64,18 @@ public class DlgGenerarRetiro extends javax.swing.JDialog {
         retiro.setNumeroCuenta(r.getNumero_cuenta());
         float retiroCantidad = Float.parseFloat(txtCantidad.getText());
         if (r.getSaldo()<retiroCantidad) {
-          JOptionPane.showMessageDialog(this, "El Saldo de la Cuenta es Insuficiente para crear el Retiro", "Informacion", JOptionPane.WARNING_MESSAGE);
+          JOptionPane.showMessageDialog(this, "El saldo de la cuenta es insuficiente para generar el Retiro", "Error", JOptionPane.WARNING_MESSAGE);
             return false ;
         }
         RetiroSinCuenta retiroGuardar = RetiroSinCuentaDAO.guardar(retiro);
         if (retiroGuardar==null) {
-            JOptionPane.showMessageDialog(this, "No se Pudo Realizar el Retiro", "Informacion", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "No se pudo relizar el retiro", "Error", JOptionPane.ERROR_MESSAGE);
             return false;
         }else{
-            
-            JOptionPane.showMessageDialog(this, "Retiro Creado Su Folio Es "+retiroGuardar.getFolio()+" Y Contraseña Es: "+retiro.getContraseña(), "Retiro Creado", JOptionPane.INFORMATION_MESSAGE);
+            txtFolio.setText(retiroGuardar.getFolio());
+            txtContraseña.setText(String.valueOf(retiro.getContraseña()));
             return true;
-        }
-       
+        }      
     }
     
     
@@ -92,14 +90,17 @@ public class DlgGenerarRetiro extends javax.swing.JDialog {
 
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        lblNombreCliente = new javax.swing.JLabel();
         cboCuentas = new javax.swing.JComboBox<>();
         jLabel2 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         txtCantidad = new javax.swing.JTextField();
         panelRound1 = new vista.PanelRound();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        txtFolio = new javax.swing.JTextField();
+        txtContraseña = new javax.swing.JTextField();
         btnGenerar = new javax.swing.JButton();
-        btnCancelar = new javax.swing.JButton();
+        btnRegresar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Generar retiro");
@@ -109,9 +110,6 @@ public class DlgGenerarRetiro extends javax.swing.JDialog {
 
         jLabel1.setFont(new java.awt.Font("Berlin Sans FB", 0, 40)); // NOI18N
         jLabel1.setText("Banco JV");
-
-        lblNombreCliente.setFont(new java.awt.Font("Berlin Sans FB", 0, 18)); // NOI18N
-        lblNombreCliente.setText("nombrecliente");
 
         cboCuentas.setFont(new java.awt.Font("Berlin Sans FB", 0, 30)); // NOI18N
         cboCuentas.addActionListener(new java.awt.event.ActionListener() {
@@ -134,15 +132,61 @@ public class DlgGenerarRetiro extends javax.swing.JDialog {
         panelRound1.setRoundTopLeft(30);
         panelRound1.setRoundTopRight(30);
 
+        jLabel3.setFont(new java.awt.Font("Berlin Sans FB", 0, 30)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel3.setText("Folio:");
+
+        jLabel5.setFont(new java.awt.Font("Berlin Sans FB", 0, 30)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel5.setText("Contraseña:");
+
+        txtFolio.setEditable(false);
+        txtFolio.setBackground(new java.awt.Color(103, 130, 103));
+        txtFolio.setFont(new java.awt.Font("Berlin Sans FB", 0, 30)); // NOI18N
+        txtFolio.setForeground(new java.awt.Color(255, 255, 255));
+        txtFolio.setBorder(null);
+        txtFolio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtFolioActionPerformed(evt);
+            }
+        });
+
+        txtContraseña.setEditable(false);
+        txtContraseña.setBackground(new java.awt.Color(103, 130, 103));
+        txtContraseña.setFont(new java.awt.Font("Berlin Sans FB", 0, 30)); // NOI18N
+        txtContraseña.setForeground(new java.awt.Color(255, 255, 255));
+        txtContraseña.setBorder(null);
+
         javax.swing.GroupLayout panelRound1Layout = new javax.swing.GroupLayout(panelRound1);
         panelRound1.setLayout(panelRound1Layout);
         panelRound1Layout.setHorizontalGroup(
             panelRound1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 550, Short.MAX_VALUE)
+            .addGroup(panelRound1Layout.createSequentialGroup()
+                .addGap(19, 19, 19)
+                .addGroup(panelRound1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel5))
+                .addGroup(panelRound1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelRound1Layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(txtContraseña, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(panelRound1Layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(txtFolio, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         panelRound1Layout.setVerticalGroup(
             panelRound1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 112, Short.MAX_VALUE)
+            .addGroup(panelRound1Layout.createSequentialGroup()
+                .addGap(13, 13, 13)
+                .addGroup(panelRound1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(txtFolio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(12, 12, 12)
+                .addGroup(panelRound1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(txtContraseña, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(16, Short.MAX_VALUE))
         );
 
         btnGenerar.setFont(new java.awt.Font("Berlin Sans FB", 0, 30)); // NOI18N
@@ -154,12 +198,12 @@ public class DlgGenerarRetiro extends javax.swing.JDialog {
             }
         });
 
-        btnCancelar.setFont(new java.awt.Font("Berlin Sans FB", 0, 30)); // NOI18N
-        btnCancelar.setText("Cancelar");
-        btnCancelar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
+        btnRegresar.setFont(new java.awt.Font("Berlin Sans FB", 0, 30)); // NOI18N
+        btnRegresar.setText("Regresar");
+        btnRegresar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnRegresar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCancelarActionPerformed(evt);
+                btnRegresarActionPerformed(evt);
             }
         });
 
@@ -167,59 +211,52 @@ public class DlgGenerarRetiro extends javax.swing.JDialog {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addGap(15, 15, 15)
                 .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(lblNombreCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addContainerGap(536, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(81, 81, 81)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(panelRound1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(81, 81, 81))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel4))
-                        .addGap(34, 34, 34)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(panelRound1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(txtCantidad)
-                                .addGap(81, 81, 81))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(cboCuentas, javax.swing.GroupLayout.PREFERRED_SIZE, 386, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(115, 115, 115)
-                .addComponent(btnGenerar)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnCancelar)
-                .addGap(126, 126, 126))
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel2)
+                                    .addComponent(jLabel4))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(cboCuentas, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(txtCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, 357, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGap(72, 72, 72))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGap(69, 69, 69)
+                        .addComponent(btnGenerar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnRegresar)
+                        .addGap(138, 138, 138))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1)
-                    .addComponent(lblNombreCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(97, 97, 97)
+                .addComponent(jLabel1)
+                .addGap(50, 50, 50)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(cboCuentas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel4)
-                    .addComponent(txtCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel4))
                 .addGap(18, 18, 18)
                 .addComponent(panelRound1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGap(37, 37, 37)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnGenerar)
-                    .addComponent(btnCancelar))
-                .addContainerGap(25, Short.MAX_VALUE))
+                    .addComponent(btnRegresar))
+                .addContainerGap(46, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -246,25 +283,31 @@ public class DlgGenerarRetiro extends javax.swing.JDialog {
         crearRetiro();
     }//GEN-LAST:event_btnGenerarActionPerformed
 
-    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+    private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
         frmInicio inicio= new frmInicio(idc);
-        inicio.setVisible(true);
-        
+        inicio.setVisible(true);        
         this.setVisible(false);
-    }//GEN-LAST:event_btnCancelarActionPerformed
+    }//GEN-LAST:event_btnRegresarActionPerformed
+
+    private void txtFolioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFolioActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtFolioActionPerformed
 
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnGenerar;
+    private javax.swing.JButton btnRegresar;
     private javax.swing.JComboBox<String> cboCuentas;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JLabel lblNombreCliente;
     private vista.PanelRound panelRound1;
     private javax.swing.JTextField txtCantidad;
+    private javax.swing.JTextField txtContraseña;
+    private javax.swing.JTextField txtFolio;
     // End of variables declaration//GEN-END:variables
 }
