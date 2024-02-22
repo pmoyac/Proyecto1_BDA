@@ -217,7 +217,8 @@ public class DlgRetiroSinCuenta extends javax.swing.JDialog {
 
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
         retirar();
-        
+        frmPrincipal principal = new frmPrincipal();
+        principal.setVisible(true);
     }//GEN-LAST:event_btnAceptarActionPerformed
 
 

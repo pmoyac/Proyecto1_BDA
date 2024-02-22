@@ -17,8 +17,8 @@ import objetos.Cliente;
  */
 public class DlgRegistrarCliente extends javax.swing.JDialog {
     int idc;
-     ClienteDAO cliente;
-
+    ClienteDAO cliente;
+      
     /**
      * Creates new form DlgRegistrarCliente
      */
@@ -32,6 +32,7 @@ public class DlgRegistrarCliente extends javax.swing.JDialog {
         initComponents();
         idc =id;
         this.cliente = new ClienteDAO();
+        jDateFecha.getDateEditor().getUiComponent().setEnabled(false);
     }
 
     private boolean validarCampos() {
@@ -57,6 +58,7 @@ public class DlgRegistrarCliente extends javax.swing.JDialog {
         return true;
     }
     
+    // JTextField fecha = jDateFecha.getDateEditor().getUiComponent();
     
     
     /**
@@ -199,7 +201,7 @@ public class DlgRegistrarCliente extends javax.swing.JDialog {
                 .addGroup(panelRound1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel11)
                     .addComponent(txtConfirmarContrasenia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(27, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         btnAceptar.setFont(new java.awt.Font("Berlin Sans FB", 0, 24)); // NOI18N
@@ -229,6 +231,8 @@ public class DlgRegistrarCliente extends javax.swing.JDialog {
             }
         });
 
+        jDateFecha.setDoubleBuffered(false);
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -252,11 +256,8 @@ public class DlgRegistrarCliente extends javax.swing.JDialog {
                         .addGap(22, 22, 22)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtColonia, javax.swing.GroupLayout.PREFERRED_SIZE, 331, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(txtCalle, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtNum, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(12, 12, 12))))
+                            .addComponent(txtCalle, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtNum, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel5)
                         .addGap(18, 18, 18)
@@ -342,7 +343,6 @@ public class DlgRegistrarCliente extends javax.swing.JDialog {
         txtColonia.setText("");
         txtContrasenia.setText("");
         txtConfirmarContrasenia.setText("");
-
     }//GEN-LAST:event_btnRestaurarActionPerformed
 
     private void txtCalleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCalleActionPerformed
@@ -359,8 +359,7 @@ public class DlgRegistrarCliente extends javax.swing.JDialog {
 
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
         try {
-
-            if (validarCampos()) {
+            if (validarCampos() && jDateFecha.getDate() != null) {
                 // Verificar que la contraseña coincida con la confirmación de la contraseña
                 if (txtContrasenia.getText().equals(txtConfirmarContrasenia.getText())) {
 
@@ -405,7 +404,6 @@ public class DlgRegistrarCliente extends javax.swing.JDialog {
         dispose();
     }//GEN-LAST:event_btnCancelarActionPerformed
 
-    
 
     
 

@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package datos;
 
 import interfaces.IConexion;
@@ -26,94 +22,94 @@ public class RetiroSinCuentaDAO implements IRetiroSinCuenta{
         this.conexion = new  ConexionBD();
     }
     
-    
     @Override
-    public RetiroSinCuenta guardar(RetiroSinCuenta retiroSinCuenta) {     
-     try {
+    public RetiroSinCuenta guardar(RetiroSinCuenta retiroSinCuenta) {
+        try {
             Connection conex = this.conexion.crearConexion();
             Statement comando = conex.createStatement();
-            String codigo= String.format("INSERT INTO retirosincuenta (numero_cuenta,cantidad,contraseña)"
+            String codigo = String.format("INSERT INTO retirosincuenta (numero_cuenta,cantidad,contraseña)"
                     + "VALUES ('%s','%s','%d')",
                     retiroSinCuenta.getNumeroCuenta(),
                     retiroSinCuenta.getCantidad(),
                     retiroSinCuenta.getContraseña()
-                    );
-            
+            );
+
             System.out.println(codigo);
-            
+
             comando.executeUpdate(codigo);
-            retiroSinCuenta.setFolio(buscarid(conex)); 
-            
+            retiroSinCuenta.setFolio(buscarid(conex));
+
             conex.close();
-            
-            
+
         } catch (SQLException ex) {
-           
+
             return null;
         }
-      return retiroSinCuenta;
+        return retiroSinCuenta;
     }
+    
     public String buscarid(Connection conexi) {
         String id = null;
         try {
             Connection conex = conexi;
             Statement comandoSQL = conex.createStatement();
-            String querySql= "select LAST_INSERT_ID()";
-             ResultSet resultado = comandoSQL.executeQuery(querySql);
-             
-             if(resultado.next()){
-                 String folio = resultado.getString("LAST_INSERT_ID()");
-                 id=folio;
-         }
-        return id;
+            String querySql = "select LAST_INSERT_ID()";
+            ResultSet resultado = comandoSQL.executeQuery(querySql);
+
+            if (resultado.next()) {
+                String folio = resultado.getString("LAST_INSERT_ID()");
+                id = folio;
+            }
+            return id;
         } catch (SQLException ex) {
-            
+
         }
-        
-      return id;
+
+        return id;
     }
+    
     @Override
     public RetiroSinCuenta PorFolioContra(RetiroSinCuenta retiroSinCuenta) {
-        
+
         RetiroSinCuenta cuentaEncontrado = null;
         try {
             Connection conex = this.conexion.crearConexion();
             Statement comandoSQL = conex.createStatement();
-            String querySql= "Select * From retirosincuenta WHERE folio ='"+retiroSinCuenta.getFolio()+"' and contraseña='"+retiroSinCuenta.getContraseña()+"'";
-             ResultSet resultado = comandoSQL.executeQuery(querySql);
-             
-             if(resultado.next()){
-                 String folio = resultado.getString("folio");
-                 int numeroCuenta = resultado.getInt("numero_cuenta");
-                 String cantidad = resultado.getString("cantidad");
-                 int contraseña = resultado.getInt("contraseña");  
-                 String estado = resultado.getString("estado");  
-                 String fechaHora = resultado.getString("fechaHora");  
-                 String fechaHoraRetirado = resultado.getString("fechaHoraRetirado");  
-             String fechaHoraLimite = resultado.getString("fechaHoraLimite");  
-                 cuentaEncontrado = new RetiroSinCuenta(folio,numeroCuenta,cantidad,estado,contraseña
-                                                        ,fechaHora,fechaHoraRetirado,fechaHoraLimite);       
+            String querySql = "Select * From retirosincuenta WHERE folio ='" + retiroSinCuenta.getFolio() + "' and contraseña='" + retiroSinCuenta.getContraseña() + "'";
+            ResultSet resultado = comandoSQL.executeQuery(querySql);
 
-         }
-        conex.close();
-        return cuentaEncontrado;
+            if (resultado.next()) {
+                String folio = resultado.getString("folio");
+                int numeroCuenta = resultado.getInt("numero_cuenta");
+                String cantidad = resultado.getString("cantidad");
+                int contraseña = resultado.getInt("contraseña");
+                String estado = resultado.getString("estado");
+                String fechaHora = resultado.getString("fechaHora");
+                String fechaHoraRetirado = resultado.getString("fechaHoraRetirado");
+                String fechaHoraLimite = resultado.getString("fechaHoraLimite");
+                cuentaEncontrado = new RetiroSinCuenta(folio, numeroCuenta, cantidad, estado, contraseña,
+                         fechaHora, fechaHoraRetirado, fechaHoraLimite);
+
+            }
+            conex.close();
+            return cuentaEncontrado;
         } catch (SQLException ex) {
-            
+
         }
-      return cuentaEncontrado;
+        return cuentaEncontrado;
     }
 
     @Override
     public void ProcedimientoRetirar(RetiroSinCuenta retiroSinCuenta) {
-    try {
-        Connection conex = this.conexion.crearConexion();
-        CallableStatement cs = conex.prepareCall("{call realizarRetiroSinCuenta(?,?)}");
-        cs.setInt(1, Integer.parseInt(retiroSinCuenta.getFolio()));
-        cs.setInt(2, retiroSinCuenta.getContraseña());
-        cs.execute();
-        conex.close();
-    } catch (SQLException ex) {
-        
+        try {
+            Connection conex = this.conexion.crearConexion();
+            CallableStatement cs = conex.prepareCall("{call realizarRetiroSinCuenta(?,?)}");
+            cs.setInt(1, Integer.parseInt(retiroSinCuenta.getFolio()));
+            cs.setInt(2, retiroSinCuenta.getContraseña());
+            cs.execute();
+            conex.close();
+        } catch (SQLException ex) {
+
+        }
     }
-}
 }

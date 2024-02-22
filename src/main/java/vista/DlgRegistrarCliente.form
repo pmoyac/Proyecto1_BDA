@@ -402,6 +402,9 @@
           </Events>
         </Component>
         <Component class="com.toedter.calendar.JDateChooser" name="jDateFecha">
+          <Properties>
+            <Property name="doubleBuffered" type="boolean" value="false"/>
+          </Properties>
         </Component>
       </SubComponents>
     </Container>
