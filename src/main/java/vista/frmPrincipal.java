@@ -1,6 +1,9 @@
 package vista;
 
 import interfaces.ICliente;
+import java.security.NoSuchAlgorithmException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import objetos.Cliente;
@@ -151,7 +154,14 @@ public class frmPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_btnIniciarSesionActionPerformed
 
     private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
-        DlgRegistrarCliente registrarCliente = new DlgRegistrarCliente(0);
+        DlgRegistrarCliente registrarCliente = null;
+        
+        try {
+            registrarCliente = new DlgRegistrarCliente(0);
+        } catch (NoSuchAlgorithmException ex) {
+            Logger.getLogger(frmPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
         registrarCliente.setVisible(true);
         
         this.setVisible(false);

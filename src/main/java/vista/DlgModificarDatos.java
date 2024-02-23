@@ -2,6 +2,7 @@ package vista;
 
 import datos.ClienteDAO;
 import excepciones.PersistenciaException;
+import java.security.NoSuchAlgorithmException;
 import java.sql.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -27,7 +28,7 @@ public class DlgModificarDatos extends javax.swing.JDialog {
         initComponents();
     }
 
-    public DlgModificarDatos(int id) throws PersistenciaException {
+    public DlgModificarDatos(int id) throws PersistenciaException, NoSuchAlgorithmException {
         initComponents();
         idc = id;
         cliente = new ClienteDAO();

@@ -4,6 +4,7 @@ import datos.CuentaDAO;
 import excepciones.PersistenciaException;
 import java.awt.Component;
 import java.awt.Font;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -265,6 +266,8 @@ public class frmInicio extends javax.swing.JFrame {
             modificar.setVisible(true);
             this.dispose();
         } catch (PersistenciaException ex) {
+            Logger.getLogger(frmInicio.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NoSuchAlgorithmException ex) {
             Logger.getLogger(frmInicio.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btnActualizarActionPerformed

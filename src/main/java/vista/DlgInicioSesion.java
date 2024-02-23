@@ -2,6 +2,7 @@ package vista;
 
 import datos.ClienteDAO;
 import excepciones.PersistenciaException;
+import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -215,6 +216,8 @@ public class DlgInicioSesion extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(this, "Número de cliente no válido", "Error", JOptionPane.ERROR_MESSAGE);
         } catch (PersistenciaException ex) {
             JOptionPane.showMessageDialog(this, "Error al iniciar sesión: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (NoSuchAlgorithmException ex) {
+            Logger.getLogger(DlgInicioSesion.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btnAceptarActionPerformed
 
