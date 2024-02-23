@@ -4,6 +4,7 @@ import javax.swing.JTextField;
 import javax.swing.JOptionPane;
 import datos.ClienteDAO;
 import excepciones.PersistenciaException;
+import java.security.NoSuchAlgorithmException;
 import java.sql.Date;
 import java.util.Random;
 //import java.util.Date;
@@ -22,13 +23,13 @@ public class DlgRegistrarCliente extends javax.swing.JDialog {
     /**
      * Creates new form DlgRegistrarCliente
      */
-    public DlgRegistrarCliente(java.awt.Frame parent, boolean modal) {
+    public DlgRegistrarCliente(java.awt.Frame parent, boolean modal) throws NoSuchAlgorithmException {
         super(parent, modal);
         initComponents();
         this.cliente = new ClienteDAO();
     }
 
-    DlgRegistrarCliente(int id) {
+    DlgRegistrarCliente(int id) throws NoSuchAlgorithmException {
         initComponents();
         idc =id;
         this.cliente = new ClienteDAO();

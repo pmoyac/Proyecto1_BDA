@@ -3,6 +3,7 @@ package datos;
 import excepciones.PersistenciaException;
 import interfaces.ICliente;
 import interfaces.IConexion;
+import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.Date;
 //import java.util.Date;
@@ -13,6 +14,7 @@ import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import objetos.Cliente;
+import objetos.Encripta;
 
 /**
  * @author Pedro Moya, Adriana Gutiérrez
@@ -21,50 +23,55 @@ public class ClienteDAO implements ICliente {
 
     private final IConexion conexion;
     private static final Logger LOG = Logger.getLogger(ClienteDAO.class.getName());
+    Encripta encripta;
 
-    public ClienteDAO() {
+    public ClienteDAO() throws NoSuchAlgorithmException {
         this.conexion = new ConexionBD();
+        this.encripta = new Encripta();
     }
-    
+
     @Override
     public Cliente registrarCliente(Cliente c) throws PersistenciaException {
-    String createClient = "INSERT INTO clientes "
-            + "(contrasenia, nombre, apellido_paterno, apellido_materno, fecha_nacimiento, calle, num, colonia) "
-            + "VALUES (?,?,?,?,?,?,?,?)";
+        String createClient = "INSERT INTO clientes "
+                + "(contrasenia, nombre, apellido_paterno, apellido_materno, fecha_nacimiento, calle, num, colonia) "
+                + "VALUES (?,?,?,?,?,?,?,?)";
 
-    Cliente resultado = null;
+        Cliente resultado = null;
 
-    try {
-        Connection cn = conexion.crearConexion();
-        PreparedStatement insert = cn.prepareStatement(createClient, Statement.RETURN_GENERATED_KEYS);
+        try {
 
-        insert.setString(1, c.getContrasenia());
-        insert.setString(2, c.getNombre());
-        insert.setString(3, c.getApellido_paterno());
-        insert.setString(4, c.getApellido_materno());
-        insert.setDate(5, c.getFecha_nacimiento());
-        insert.setString(6, c.getCalle());
-        insert.setString(7, c.getNum());
-        insert.setString(8, c.getColonia());
+            Connection cn = conexion.crearConexion();
 
-        insert.executeUpdate();
+            String contra = encripta.encripta(c.getContrasenia());
 
-        // Obtener el ID generado por la base de datos
-        ResultSet rs = insert.getGeneratedKeys();
-        if (rs.next()) {
-            int idGenerado = rs.getInt(1);
-            c.setId(idGenerado); // Establecer el ID generado en el cliente
+            PreparedStatement insert = cn.prepareStatement(createClient, Statement.RETURN_GENERATED_KEYS);
+
+            insert.setString(1, contra);
+            insert.setString(2, c.getNombre());
+            insert.setString(3, c.getApellido_paterno());
+            insert.setString(4, c.getApellido_materno());
+            insert.setDate(5, c.getFecha_nacimiento());
+            insert.setString(6, c.getCalle());
+            insert.setString(7, c.getNum());
+            insert.setString(8, c.getColonia());
+
+            insert.executeUpdate();
+
+            // Obtener el ID generado por la base de datos
+            ResultSet rs = insert.getGeneratedKeys();
+            if (rs.next()) {
+                int idGenerado = rs.getInt(1);
+                c.setId(idGenerado); // Establecer el ID generado en el cliente
+            }
+
+            resultado = c;
+        } catch (SQLException e) {
+            LOG.log(Level.SEVERE, e.getMessage());
+            throw new PersistenciaException("No fue posible agregar el cliente" + e.getMessage());
         }
-
-        resultado = c;
-    } catch (SQLException e) {
-        LOG.log(Level.SEVERE, e.getMessage());
-        throw new PersistenciaException("No fue posible agregar el cliente" + e.getMessage());
+        return resultado;
     }
-    return resultado;
-}
 
-    
     public int obtenerIdClienteGenerado() throws PersistenciaException {
         int idGenerado = -1;
         try {
@@ -85,10 +92,9 @@ public class ClienteDAO implements ICliente {
         return stmt.executeQuery("SELECT LAST_INSERT_ID()");
     }
 
-
     @Override
     public Cliente actualizarCliente(Cliente c) throws PersistenciaException {
-       
+
         String createClient = "UPDATE clientes SET "
                 + "nombre = ?, apellido_paterno = ?, apellido_materno = ?, fecha_nacimiento = ?, "
                 + "calle = ?, num = ?, colonia = ? WHERE id = ?";
@@ -106,7 +112,7 @@ public class ClienteDAO implements ICliente {
             insert.setString(5, c.getCalle());
             insert.setString(6, c.getNum());
             insert.setString(7, c.getColonia());
-            insert.setInt(8, c.getId()); 
+            insert.setInt(8, c.getId());
             insert.executeUpdate();
 
             resultado = buscarCliente(c.getId());
@@ -157,16 +163,19 @@ public class ClienteDAO implements ICliente {
 
     @Override
     public Cliente iniciarSesion(int idCliente, String contrasenia) throws PersistenciaException {
+
+        String contra = this.buscarCliente(idCliente).getContrasenia();
+        System.out.println(contra);
         String search = "SELECT * FROM clientes WHERE id = ? AND contrasenia = ?";
 
         Cliente cliente = null;
+        try (Connection cn = conexion.crearConexion(); PreparedStatement ps = cn.prepareStatement(search)) {
+            //Encripta encripta = new Encripta();
+            String contraseniaEn = encripta.encripta(contrasenia);
+            System.out.println(contraseniaEn);
 
-        try (Connection cn = conexion.crearConexion(); 
-             PreparedStatement ps = cn.prepareStatement(search)
-            ) 
-        {
             ps.setInt(1, idCliente);
-            ps.setString(2, contrasenia);
+            ps.setString(2, contraseniaEn);
 
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
